@@ -22,7 +22,7 @@ export const Layout = (props) => {
       >
         <Grid
           xs={12}
-          lg={6}
+          lg={12}
           sx={{
             backgroundColor: 'background.paper',
             display: 'flex',
@@ -32,6 +32,8 @@ export const Layout = (props) => {
         >
           <Box
             component="header"
+            display={"flex"}
+            alignItems={"center"}
             sx={{
               left: 0,
               p: 3,
@@ -50,11 +52,13 @@ export const Layout = (props) => {
               }}
             >
               <Logo />
+              
             </Box>
+            <Box sx={{ml:1}}><Typography variant='h5'>ABC Recon</Typography></Box>
           </Box>
           {children}
         </Grid>
-        <Grid
+        {/* <Grid
           xs={12}
           lg={6}
           sx={{
@@ -100,7 +104,7 @@ export const Layout = (props) => {
               src="/assets/auth-illustration.svg"
             />
           </Box>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Box>
   );

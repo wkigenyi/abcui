@@ -17,7 +17,7 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
 
-export const CustomersTable = (props) => {
+export const ReconciliationsTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -56,19 +56,19 @@ export const CustomersTable = (props) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Payer
+                  Trans Date
                 </TableCell>
                 <TableCell>
-                  Payee
+                  Transaction Type
                 </TableCell>
                 <TableCell>
                   Amount
                 </TableCell>
                 <TableCell>
-                  Variance
+                  Reference #
                 </TableCell>
                 <TableCell>
-                  Signed Up
+                  Status
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -141,7 +141,7 @@ export const CustomersTable = (props) => {
   );
 };
 
-CustomersTable.propTypes = {
+ReconciliationsTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,

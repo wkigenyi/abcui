@@ -6,11 +6,12 @@ import UserIcon from '@heroicons/react/24/solid/UserIcon';
 import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
+import DollarIcon from "@heroicons/react/24/solid/CurrencyDollarIcon"
 import { SvgIcon } from '@mui/material';
 
 export const items = [
   {
-    title: 'Overview',
+    title: 'Monitoring',
     path: '/',
     icon: (
       <SvgIcon fontSize="small">
@@ -19,24 +20,24 @@ export const items = [
     )
   },
   {
-    title: 'Customers',
-    path: '/customers',
+    title: 'Turnover',
+    path: '/turnover',
     icon: (
       <SvgIcon fontSize="small">
-        <UsersIcon />
+        <DollarIcon />
       </SvgIcon>
     )
   },
   {
-    title: 'Companies',
-    path: '/companies',
+    title: 'Commission',
+    path: '/commissions',
     icon: (
       <SvgIcon fontSize="small">
         <ShoppingBagIcon />
       </SvgIcon>
     )
   },
-  {
+  /* {
     title: 'Account',
     path: '/account',
     icon: (
@@ -44,17 +45,17 @@ export const items = [
         <UserIcon />
       </SvgIcon>
     )
-  },
+  }, */
   {
-    title: 'Settings',
-    path: '/settings',
+    title: 'Reconciliations',
+    path: '/reconciliations',
     icon: (
       <SvgIcon fontSize="small">
         <CogIcon />
       </SvgIcon>
     )
   },
-  {
+  /* {
     title: 'Login',
     path: '/auth/login',
     icon: (
@@ -80,5 +81,5 @@ export const items = [
         <XCircleIcon />
       </SvgIcon>
     )
-  }
+  } */
 ];
