@@ -261,7 +261,7 @@ const Page = () => {
                 </Button>
               </div>
             </Stack>
-            <CustomersSearch />
+            {/* <CustomersSearch /> */}
             <ReconciliationsTable
               count={data.length}
               items={customers}
