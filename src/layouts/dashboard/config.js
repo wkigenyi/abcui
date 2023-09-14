@@ -11,7 +11,7 @@ import { SvgIcon } from '@mui/material';
 
 export const items = [
   {
-    title: 'Monitoring Overview',
+    title: 'Reversal Monitoring',
     path: '/',
     icon: (
       <SvgIcon fontSize="small">

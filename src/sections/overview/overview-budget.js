@@ -21,7 +21,7 @@ export const OverviewBudget = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Transactions To Date
+              All Reversals
             </Typography>
             <Typography variant="h4">
               {value}
@@ -29,7 +29,7 @@ export const OverviewBudget = (props) => {
           </Stack>
           <Avatar
             sx={{
-              backgroundColor: 'error.main',
+              backgroundColor: 'info',
               height: 56,
               width: 56
             }}

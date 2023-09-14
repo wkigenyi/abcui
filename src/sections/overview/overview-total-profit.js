@@ -19,7 +19,7 @@ export const OverviewTotalProfit = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Total Commission
+              Retrials
             </Typography>
             <Typography variant="h4">
               {value}

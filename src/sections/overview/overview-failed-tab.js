@@ -5,7 +5,7 @@ import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
 
-export const OverviewTotalCustomers = (props) => {
+export const OverviewFailedReversals = (props) => {
   const { difference, positive = false, sx, value } = props;
 
   return (
@@ -22,7 +22,7 @@ export const OverviewTotalCustomers = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Successful
+              Failed
             </Typography>
             <Typography variant="h4">
               {value}
@@ -30,7 +30,7 @@ export const OverviewTotalCustomers = (props) => {
           </Stack>
           <Avatar
             sx={{
-              backgroundColor: 'success.main',
+              backgroundColor: 'error.main',
               height: 56,
               width: 56
             }}
@@ -78,7 +78,7 @@ export const OverviewTotalCustomers = (props) => {
   );
 };
 
-OverviewTotalCustomers.propTypes = {
+OverviewFailedReversals.propTypes = {
   difference: PropTypes.number,
   positive: PropTypes.bool,
   value: PropTypes.string.isRequired,
