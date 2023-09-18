@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
@@ -8,9 +8,12 @@ import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/materia
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 
-import { CustomersSearch } from 'src/sections/customer/customers-search';
+/* import { CustomersSearch } from 'src/sections/customer/customers-search';
+import {FilePlus} from "react-feather" */
 import { applyPagination } from 'src/utils/apply-pagination';
 import { ReconciliationsTable } from 'src/sections/customer/reconciliations-table';
+import { styled } from '@mui/material/styles';
+import axios from 'axios';
 
 const now = new Date();
 
@@ -175,12 +178,31 @@ const useCustomerIds = (customers) => {
   );
 };
 
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
+
 const Page = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const customers = useCustomers(page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
+
+  useEffect(()=>{
+    fetch("http://localhost:8000/test").then(
+      res =>{res.json().then(data => console.log(data))},
+      err =>{ console.log(err)}
+    )
+  },[])
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -195,6 +217,37 @@ const Page = () => {
     },
     []
   );
+
+  const handleFileUpload = async(e) =>{
+
+    
+
+    if(e.target.files && e.target.files.length){
+      
+      try{
+        const formData = new FormData()
+      formData.append("file",e.target.files[0])
+      formData.append("swift_code","AFRIUGKA")
+      await fetch("http://localhost:8000/reconcile",{method:"POST",body:formData}).then(
+        response =>{
+          response.json().then(
+            data =>{
+              console.log(data)
+            },
+            err =>{ console.log(err)}
+          )
+        },
+        error =>{
+          console.log(error)
+        }
+      )
+      }catch(e){ 
+        console.log(e)
+      }
+      
+    }
+
+  }
 
   return (
     <>
@@ -228,16 +281,23 @@ const Page = () => {
                 >
                   <Button
                     color="inherit"
+                    variant='outlined'
                     startIcon={(
                       <SvgIcon fontSize="small">
                         <ArrowUpOnSquareIcon />
                       </SvgIcon>
                     )}
+                    component={"label"}
                   >
-                    Import
+                    Import Recon File
+                    <VisuallyHiddenInput type='file' 
+                    onChange={handleFileUpload} 
+                    accept=".xls,.xlsx"
+                    />
                   </Button>
-                  <Button
+                  {/* <Button
                     color="inherit"
+
                     startIcon={(
                       <SvgIcon fontSize="small">
                         <ArrowDownOnSquareIcon />
@@ -245,21 +305,11 @@ const Page = () => {
                     )}
                   >
                     Export
-                  </Button>
+                  </Button> */}
                 </Stack>
               </Stack>
-              <div>
-                <Button
-                  startIcon={(
-                    <SvgIcon fontSize="small">
-                      <PlusIcon />
-                    </SvgIcon>
-                  )}
-                  variant="contained"
-                >
-                  Add
-                </Button>
-              </div>
+              
+              
             </Stack>
             {/* <CustomersSearch /> */}
             <ReconciliationsTable
