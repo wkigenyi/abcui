@@ -9,6 +9,7 @@ import { useNProgress } from 'src/hooks/use-nprogress';
 import { createTheme } from 'src/theme';
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
+import { SnackbarContent, SnackbarProvider } from 'notistack';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -36,7 +37,9 @@ const App = (props) => {
       </Head>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <AuthProvider>
+
           <ThemeProvider theme={theme}>
+            <SnackbarProvider >
             <CssBaseline />
             <AuthConsumer>
               {
@@ -45,6 +48,7 @@ const App = (props) => {
                   : getLayout(<Component {...pageProps} />)
               }
             </AuthConsumer>
+            </SnackbarProvider>
           </ThemeProvider>
         </AuthProvider>
       </LocalizationProvider>
