@@ -8,6 +8,7 @@ import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
 import DollarIcon from "@heroicons/react/24/solid/CurrencyDollarIcon"
 import { SvgIcon } from '@mui/material';
+import { AlertCircle } from 'react-feather';
 
 export const items = [
   {
@@ -52,6 +53,15 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <CogIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Exceptions',
+    path: '/exceptions',
+    icon: (
+      <SvgIcon fontSize="small">
+        <AlertCircle />
       </SvgIcon>
     )
   },

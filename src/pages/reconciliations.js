@@ -62,6 +62,15 @@ const Page = () => {
 
   const {enqueueSnackbar} = useSnackbar()
 
+  useEffect(()=>{
+    fetch("/exceptions?Swift_code_up=130447").then(
+      res =>{
+        res.json().then(data =>console.log(data),err =>console.log(err))
+      },
+      err =>{}
+    )
+  },[])
+
   const handlePageChange = useCallback(
     (event, value) => {
       setPage(value);
