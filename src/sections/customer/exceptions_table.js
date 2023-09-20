@@ -33,6 +33,7 @@ export const ExceptionsTable = (props) => {
     selected = []
   } = props;
 
+  console.log(exceptions)
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
 
@@ -77,6 +78,12 @@ export const ExceptionsTable = (props) => {
                 <TableCell>
                   Status
                 </TableCell>
+                <TableCell>
+                  L1
+                </TableCell>
+                <TableCell>
+                  L2
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -105,7 +112,7 @@ export const ExceptionsTable = (props) => {
                     <TableCell>
                       
                         
-                        Date goes here
+                        {exceptions.DATE_TIME["0"]}
                       
                     </TableCell>
                     <TableCell>
@@ -150,27 +157,33 @@ export const ExceptionsTable = (props) => {
                       
                         
                         
-                          Date goes here
+                    {exceptions.DATE_TIME["0"]}
                         
                       
                     </TableCell>
                     <TableCell>
-                      Ref Goes Here
+                    {exceptions.TRN_REF["0"]}
                     </TableCell>
                     <TableCell>
-                      Type
+                    {exceptions.TXN_TYPE["0"]}
                     </TableCell>
                     <TableCell>
-                      Issuer
+                    {exceptions.ISSUER["0"]}
                     </TableCell>
                     <TableCell>
-                      Acquirer
+                    {exceptions.ACQUIRER["0"]}
                     </TableCell>
                     <TableCell>
-                      Amount
+                    {exceptions.AMOUNT["0"]}
                     </TableCell>
                     <TableCell>
-                      Status
+                    {exceptions.TRANSACTION_STATUS["0"]}
+                    </TableCell>
+                    <TableCell>
+                    {exceptions.LEG1_STATUS["0"]}
+                    </TableCell>
+                    <TableCell>
+                    {exceptions.LEG2_STATUS["0"]}
                     </TableCell>
                   </TableRow>
             </TableBody>

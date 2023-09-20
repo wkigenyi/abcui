@@ -4,7 +4,7 @@ import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
+import { Box, Button, Container, Stack, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 
@@ -60,16 +60,15 @@ const Page = () => {
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
 
+  const [stats,setStats] = useState()
+
+  
+
   const {enqueueSnackbar} = useSnackbar()
 
-  useEffect(()=>{
-    fetch("/exceptions?Swift_code_up=130447").then(
-      res =>{
-        res.json().then(data =>console.log(data),err =>console.log(err))
-      },
-      err =>{}
-    )
-  },[])
+
+
+  
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -95,12 +94,12 @@ const Page = () => {
         const formData = new FormData()
       formData.append("file",e.target.files[0])
       formData.append("swift_code","AFRIUGKA")
-      await fetch("/reconcile",{method:"POST",body:formData}).then(
+      await fetch("/api/reconcile",{method:"POST",body:formData}).then(
         response =>{
           response.json().then(
             json_ => {
               const data = JSON.parse(json_)
-              console.log(data)
+              setStats(data)
               enqueueSnackbar(`${data["feedback"]}, Uploaded Rows: ${data["UploadedRows"]},Exceptions:${data["exceptionsRows"]}, Reconciled Rows: ${data["reconciledRows"]}`,{variant:"success"})
             }
             )
@@ -181,7 +180,7 @@ const Page = () => {
               
             </Stack>
             {/* <CustomersSearch /> */}
-            <ReconciliationsTable
+            {/* <ReconciliationsTable
               count={data.length}
               items={customers}
               onDeselectAll={customersSelection.handleDeselectAll}
@@ -193,7 +192,44 @@ const Page = () => {
               page={page}
               rowsPerPage={rowsPerPage}
               selected={customersSelection.selected}
-            />
+            /> */}
+            {stats && <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Reconciliation Stats</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Reconciled Rows</TableCell>
+                  <TableCell>{stats?.reconciledRows}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Date Range</TableCell>
+                  <TableCell>{stats?.min_max_DateRange}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Uploaded Rows</TableCell>
+                  <TableCell>{stats?.UploadedRows}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Exceptions</TableCell>
+                  <TableCell>{stats?.exceptionsRows}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Reconciled Rows</TableCell>
+                  <TableCell>{stats?.unreconciledRows}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>UnReconciled Rows</TableCell>
+                  <TableCell>{stats?.unreconciledRows}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Feedback</TableCell>
+                  <TableCell>{stats?.feedback}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>}
           </Stack>
         </Container>
       </Box>

@@ -199,7 +199,7 @@ const Page = () => {
   const [exceptions,setExceptions] = useState(null)
 
   useEffect(()=>{
-    fetch("/exceptions?Swift_code_up=130447").then(
+    fetch("/api/exceptions?Swift_code_up=130447").then(
       res =>{
         res.json().then(data =>setExceptions(data),err =>console.log(err))
       },
