@@ -101,7 +101,8 @@ const Page = () => {
               const data = JSON.parse(json_)
               setStats(data)
               enqueueSnackbar(`${data["feedback"]}, Uploaded Rows: ${data["UploadedRows"]},Exceptions:${data["exceptionsRows"]}, Reconciled Rows: ${data["reconciledRows"]}`,{variant:"success"})
-            }
+            },
+            err =>{console.log(err)}
             )
         },
         error =>{
