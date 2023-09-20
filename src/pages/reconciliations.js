@@ -207,7 +207,7 @@ const Page = () => {
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell>Reconciled Rows</TableCell>
+                  <TableCell>Requested Rows</TableCell>
                   <TableCell>{stats?.reconciledRows}</TableCell>
                 </TableRow>
                 <TableRow>
