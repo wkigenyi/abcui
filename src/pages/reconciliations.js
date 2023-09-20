@@ -93,7 +93,7 @@ const Page = () => {
       try{
         const formData = new FormData()
       formData.append("file",e.target.files[0])
-      formData.append("swift_code","AFRIUGKA")
+      formData.append("swift_code","130447")
       await fetch("/api/reconcile",{method:"POST",body:formData}).then(
         response =>{
           response.json().then(

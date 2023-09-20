@@ -136,7 +136,7 @@ export const ExceptionsTable = (props) => {
                   </TableRow>
                 );
               })}
-              <TableRow
+              {exceptions &&<TableRow
                     hover
                     
                     selected={false}
@@ -185,7 +185,7 @@ export const ExceptionsTable = (props) => {
                     <TableCell>
                     {exceptions.LEG2_STATUS["0"]}
                     </TableCell>
-                  </TableRow>
+                  </TableRow>}
             </TableBody>
           </Table>
         </Box>
