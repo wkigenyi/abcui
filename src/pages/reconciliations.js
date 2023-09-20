@@ -98,9 +98,14 @@ const Page = () => {
         response =>{
           response.json().then(
             json_ => {
-              const data = JSON.parse(json_)
+              try{
+                const data = JSON.parse(json_)
               setStats(data)
               enqueueSnackbar(`${data["feedback"]}, Uploaded Rows: ${data["UploadedRows"]},Exceptions:${data["exceptionsRows"]}, Reconciled Rows: ${data["reconciledRows"]}`,{variant:"success"})
+              }catch(e){
+                enqueueSnackbar("An error occurred",{variant:"error"})
+              }
+              
             },
             err =>{console.log(err)}
             )
