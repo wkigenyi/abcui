@@ -4,7 +4,7 @@ import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { Box, Button, Container, Stack, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Container, Stack, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 
@@ -16,6 +16,7 @@ import { styled } from '@mui/material/styles';
 import axios from 'axios';
 import toast, {Toaster} from "react-hot-toast"
 import { useSnackbar } from 'notistack';
+import { File, Upload } from 'react-feather';
 
 const now = new Date();
 
@@ -61,6 +62,8 @@ const Page = () => {
   const customersSelection = useSelection(customersIds);
 
   const [stats,setStats] = useState()
+  const [fileToProcess,setFileToProcess] = useState(null)
+  const [isProcessing,setProcessing] = useState(false)
 
   
 
@@ -84,18 +87,17 @@ const Page = () => {
     []
   );
 
-  const handleFileUpload = async(e) =>{
-
-    
-
-    if(e.target.files && e.target.files.length){
-      
+  const handleFileProcess = async() =>{
+    if(fileToProcess){
+      setProcessing(true)
       try{
         const formData = new FormData()
-      formData.append("file",e.target.files[0])
+      formData.append("file",fileToProcess)
       formData.append("swift_code","130447")
       await fetch("/api/reconcile",{method:"POST",body:formData}).then(
         response =>{
+          setFileToProcess(null)
+          setProcessing(false)
           response.json().then(
             json_ => {
               try{
@@ -107,7 +109,11 @@ const Page = () => {
               }
               
             },
-            err =>{console.log(err)}
+            err =>{
+              console.log(err)
+              setProcessing(false)
+              enqueueSnackbar("An error occurred",{variant:"error"})
+            }
             )
         },
         error =>{
@@ -118,6 +124,17 @@ const Page = () => {
         console.log(e)
       }
       
+    }else{
+      enqueueSnackbar("A file must be uploaded",{variant:"info"})
+    }
+  }
+
+  const handleFileUpload = (e) =>{
+
+    
+
+    if(e.target.files && e.target.files.length){
+      setFileToProcess(e.target.files[0])
     }
 
   }
@@ -154,32 +171,36 @@ const Page = () => {
                   spacing={1}
                 >
                   <Button
+                    disabled={isProcessing}
                     color="inherit"
                     variant='outlined'
                     startIcon={(
                       <SvgIcon fontSize="small">
-                        <ArrowUpOnSquareIcon />
+                        <File />
                       </SvgIcon>
                     )}
                     component={"label"}
                   >
-                    Import Recon File
+                    Upload A New File
                     <VisuallyHiddenInput type='file' 
                     onChange={handleFileUpload} 
                     accept=".xls,.xlsx"
                     />
                   </Button>
-                  {/* <Button
+                  {fileToProcess && <Button
                     color="inherit"
-
+                    variant='outlined'
+                    disabled={isProcessing}
+                    onClick={handleFileProcess}
                     startIcon={(
                       <SvgIcon fontSize="small">
-                        <ArrowDownOnSquareIcon />
+                        <Upload />
                       </SvgIcon>
                     )}
                   >
-                    Export
-                  </Button> */}
+                    Process The selected File
+                  </Button>}
+                  {isProcessing && <CircularProgress />}
                 </Stack>
               </Stack>
               
