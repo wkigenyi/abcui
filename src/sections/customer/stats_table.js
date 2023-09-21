@@ -18,7 +18,7 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import MUIDataTable from 'mui-datatables';
 
-export const ExceptionsTable = (props) => {
+export const StatsTable = (props) => {
   const {
     exceptions,
     count = 0,
@@ -38,15 +38,14 @@ export const ExceptionsTable = (props) => {
   
 
   const columns = [
-    {name:"DATE_TIME",label:"Time"},
-    {name:"TRN_REF",label:"TRN Ref"},
-    {name:"TXN_TYPE",label:"TRN Type"},
-    {name:"ISSUER",label:"Issuer"},
-    {name:"ACQUIRER",label:"Acquirer"},
-    {name:"AMOUNT",label:"Amount"},
-    {name:"TRANSACTION_STATUS",label:"Status"},
-    {name:"LEG1_STATUS",label:"L1"},
-    {name:"LEG2_STATUS",label:"L2"},
+    {name:"RQ_RWS",label:"Requested Rows"},
+    {name:"RQ_DATE_RANGE",label:"Requested Date Range"},
+    {name:"UPLD_RWS",label:"Uploaded Rows"},
+    {name:"EXCEP_RWS",label:"Exception Rows"},
+    {name:"RECON_RWS",label:"Reconciled Rows"},
+    {name:"UNRECON_RWS",label:"Unreconciled Rows"},
+    {name:"FEEDBACK",label:"Feedback"},
+    
   ]
 
   

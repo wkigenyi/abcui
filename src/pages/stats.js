@@ -11,6 +11,7 @@ import { CustomersTable } from 'src/sections/customer/customers-table';
 import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import { ExceptionsTable } from 'src/sections/customer/exceptions_table';
+import { StatsTable } from 'src/sections/customer/stats_table';
 
 const now = new Date();
 
@@ -199,7 +200,7 @@ const Page = () => {
   const [exceptions,setExceptions] = useState(null)
 
   useEffect(()=>{
-    fetch("/api/exceptions?Swift_code_up=130447").then(
+    fetch("/api/reconstats?Swift_code_up=130447").then(
       res =>{
         res.json().then(data =>setExceptions(data),err =>console.log(err))
       },
@@ -211,7 +212,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Exceptions | ABC Recon
+          Recon Stats | ABC Recon
         </title>
       </Head>
       <Box
@@ -230,7 +231,7 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Exceptions
+                  Reconciliation Statistics
                 </Typography>
                 {/* <Stack
                   alignItems="center"
@@ -253,7 +254,7 @@ const Page = () => {
               
             </Stack>
             
-            <ExceptionsTable
+            <StatsTable
               exceptions={exceptions}
               count={data.length}
               items={customers}
