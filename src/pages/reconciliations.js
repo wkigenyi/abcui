@@ -229,7 +229,7 @@ const Page = () => {
               <TableBody>
                 <TableRow>
                   <TableCell>Requested Rows</TableCell>
-                  <TableCell>{stats?.reconciledRows}</TableCell>
+                  <TableCell>{stats?.RequestedRows}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Date Range</TableCell>
@@ -243,10 +243,7 @@ const Page = () => {
                   <TableCell>Exceptions</TableCell>
                   <TableCell>{stats?.exceptionsRows}</TableCell>
                 </TableRow>
-                <TableRow>
-                  <TableCell>Reconciled Rows</TableCell>
-                  <TableCell>{stats?.unreconciledRows}</TableCell>
-                </TableRow>
+                
                 <TableRow>
                   <TableCell>UnReconciled Rows</TableCell>
                   <TableCell>{stats?.unreconciledRows}</TableCell>
