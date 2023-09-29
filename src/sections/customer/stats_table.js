@@ -38,7 +38,7 @@ export const StatsTable = (props) => {
   
 
   const columns = [
-    {name:"RQ_RWS",label:"Requested Rows"},
+    {name:"RQ_RWS",label:"Requested Txns"},
     {name:"RQ_DATE_RANGE",label:"Requested Date Range"},
     {name:"UPLD_RWS",label:"Uploaded Txns"},
     {name:"EXCEP_RWS",label:"Exception Txns"},
