@@ -4,7 +4,7 @@ import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { Box, Button, CircularProgress, Container, Stack, SvgIcon, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Container, Divider, Skeleton, Stack, SvgIcon, Tab, Table, TableBody, TableCell, TableHead, TableRow, Tabs, Typography } from '@mui/material';
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 
@@ -17,6 +17,7 @@ import axios from 'axios';
 import toast, {Toaster} from "react-hot-toast"
 import { useSnackbar } from 'notistack';
 import { File, Upload } from 'react-feather';
+import MUIDataTable from 'mui-datatables';
 
 const now = new Date();
 
@@ -24,14 +25,21 @@ const data = [
   
 ];
 
-const useCustomers = (page, rowsPerPage) => {
-  return useMemo(
-    () => {
-      return applyPagination(data, page, rowsPerPage);
-    },
-    [page, rowsPerPage]
-  );
-};
+const ResultsTable = ({data}) =>{
+  const columns = [
+    {name:"ACQUIRER_CODE",label:"ACQUIRER CODE"},
+    {name:"AMOUNT",label:"AMOUNT"},
+    {name:"BATCH",label:"BATCH"},
+    {name:"DATE_TIME",label:"TIME"},
+    {name:"ISSUER_CODE",label:"ISSUER CODE"},
+    {name:"RESPONSE_CODE",label:"RESPONSE CODE"},
+    {name:"TRN_REF2",label:"TRAN REF"},
+    {name:"TXN_TYPE",label:"TXN TYPE"}
+  ]
+
+  return <MUIDataTable data={data} 
+  columns={columns}/>
+}
 
 const useCustomerIds = (customers) => {
   return useMemo(
@@ -54,12 +62,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const Page = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customers = useCustomers(page, rowsPerPage);
-  const customersIds = useCustomerIds(customers);
-  const customersSelection = useSelection(customersIds);
+const FileUpload = () =>{
 
   const [stats,setStats] = useState()
   const [fileToProcess,setFileToProcess] = useState(null)
@@ -70,30 +73,13 @@ const Page = () => {
   const {enqueueSnackbar} = useSnackbar()
 
 
-
-  
-
-  const handlePageChange = useCallback(
-    (event, value) => {
-      setPage(value);
-    },
-    []
-  );
-
-  const handleRowsPerPageChange = useCallback(
-    (event) => {
-      setRowsPerPage(event.target.value);
-    },
-    []
-  );
-
   const handleFileProcess = async() =>{
     if(fileToProcess){
       setProcessing(true)
       try{
         const formData = new FormData()
       formData.append("file",fileToProcess)
-      formData.append("swift_code","130447")
+      formData.append("swift_code","163747")
       await fetch("/api/reconcile",{method:"POST",body:formData}).then(
         response =>{
           setFileToProcess(null)
@@ -138,6 +124,155 @@ const Page = () => {
     }
 
   }
+  return <Stack spacing={3}>
+  
+  <Stack
+  alignItems="center"
+  direction="row"
+  spacing={1}
+>
+  <Stack spacing={1}>
+    <Stack alignItems="center"
+                  direction="row"
+                  spacing={1}>
+    <Button
+    disabled={isProcessing}
+    color="inherit"
+    variant='outlined'
+    startIcon={(
+      <SvgIcon fontSize="small">
+        <File />
+      </SvgIcon>
+    )}
+    component={"label"}
+  >
+    Upload A New File
+    <VisuallyHiddenInput type='file' 
+    onChange={handleFileUpload} 
+    accept=".xls,.xlsx"
+    />
+  </Button>
+    </Stack>
+  
+  {fileToProcess && <Button
+    color="inherit"
+    variant='outlined'
+    disabled={isProcessing}
+    onClick={handleFileProcess}
+    startIcon={(
+      <SvgIcon fontSize="small">
+        <Upload />
+      </SvgIcon>
+    )}
+  >
+    Process The selected File
+  </Button>}
+  {isProcessing && <CircularProgress />}
+
+
+{stats && <Table>
+<TableHead>
+<TableRow>
+  <TableCell>Reconciliation Stats</TableCell>
+</TableRow>
+</TableHead>
+<TableBody>
+<TableRow>
+  <TableCell>Requested Transactions</TableCell>
+  <TableCell>{stats?.RequestedRows}</TableCell>
+</TableRow>
+<TableRow>
+  <TableCell>Date Range</TableCell>
+  <TableCell>{stats?.min_max_DateRange}</TableCell>
+</TableRow>
+<TableRow>
+  <TableCell>Uploaded Transactions</TableCell>
+  <TableCell>{stats?.UploadedRows}</TableCell>
+</TableRow>
+<TableRow>
+  <TableCell>Exceptions</TableCell>
+  <TableCell>{stats?.exceptionsRows}</TableCell>
+</TableRow>
+
+<TableRow>
+  <TableCell>UnReconciled Transactions</TableCell>
+  <TableCell>{stats?.unreconciledRows}</TableCell>
+</TableRow>
+<TableRow>
+  <TableCell>Feedback</TableCell>
+  <TableCell>{stats?.feedback}</TableCell>
+</TableRow>
+</TableBody>
+</Table>}
+</Stack></Stack></Stack>
+}
+
+const Reconciled = () =>{
+  const [records,setRecords] = useState([])
+  const [isFetching,setIsFetching] = useState(false)
+  useEffect(()=>{
+    setIsFetching(true)
+    fetch("/api/reconcileddata").then(
+      res => {
+        if(res.ok){
+          try{
+            res.json().then(data => setRecords(data))
+          }catch(e){
+            console.log(e)
+          }         
+          setIsFetching(false)
+        }
+      },
+      err => {setIsFetching(false); console.log(err)}
+    )
+  },[])
+  return isFetching?<Skeleton/>:<ResultsTable data={records} />
+}
+
+const Unreconciled = () =>{
+
+  const [records,setRecords] = useState([])
+  const [isFetching,setIsFetching] = useState(false)
+  useEffect(()=>{
+    setIsFetching(true)
+    fetch("/api/unreconcileddata").then(
+      res => {
+        if(res.ok){
+          try{
+            res.json().then(data => setRecords(data))
+          }catch(e){
+            console.log(e)
+          }         
+          setIsFetching(false)
+        }
+      },
+      err => {setIsFetching(false); console.log(err)}
+    )
+  },[])
+  return isFetching?<Skeleton/>:<ResultsTable data={records} />
+}
+
+const Page = () => {
+  
+  const tabs = [
+    {value:"upload",label:"File Upload"},
+    {value:"reconciled",label:"Reconciled Transactions"},
+    {value:"unreconciled",label:"Unreconciled Transactions"},
+  ]
+
+  const [currentTab,setCurrentTab] = useState("upload")
+
+  const handleTabChange = (event,value) =>{
+    
+    setCurrentTab(value)
+  }
+
+  
+  
+  
+  
+
+  
 
   return (
     <>
@@ -153,108 +288,32 @@ const Page = () => {
           py: 8
         }}
       >
-        <Toaster/>
+       <Typography variant="h4" 
+       sx={{ml:3}}>
+          Reconciliations
+        </Typography> 
         <Container maxWidth="xl">
-          <Stack spacing={3}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              spacing={4}
-            >
-              <Stack spacing={1}>
-                <Typography variant="h4">
-                  Reconciliations
-                </Typography>
-                <Stack
-                  alignItems="center"
-                  direction="row"
-                  spacing={1}
-                >
-                  <Button
-                    disabled={isProcessing}
-                    color="inherit"
-                    variant='outlined'
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <File />
-                      </SvgIcon>
-                    )}
-                    component={"label"}
-                  >
-                    Upload A New File
-                    <VisuallyHiddenInput type='file' 
-                    onChange={handleFileUpload} 
-                    accept=".xls,.xlsx"
-                    />
-                  </Button>
-                  {fileToProcess && <Button
-                    color="inherit"
-                    variant='outlined'
-                    disabled={isProcessing}
-                    onClick={handleFileProcess}
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <Upload />
-                      </SvgIcon>
-                    )}
-                  >
-                    Process The selected File
-                  </Button>}
-                  {isProcessing && <CircularProgress />}
-                </Stack>
-              </Stack>
-              
-              
-            </Stack>
-            {/* <CustomersSearch /> */}
-            {/* <ReconciliationsTable
-              count={data.length}
-              items={customers}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
-            /> */}
-            {stats && <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Reconciliation Stats</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>Requested Transactions</TableCell>
-                  <TableCell>{stats?.RequestedRows}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Date Range</TableCell>
-                  <TableCell>{stats?.min_max_DateRange}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Uploaded Transactions</TableCell>
-                  <TableCell>{stats?.UploadedRows}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Exceptions</TableCell>
-                  <TableCell>{stats?.exceptionsRows}</TableCell>
-                </TableRow>
+          
                 
-                <TableRow>
-                  <TableCell>UnReconciled Transactions</TableCell>
-                  <TableCell>{stats?.unreconciledRows}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Feedback</TableCell>
-                  <TableCell>{stats?.feedback}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>}
-          </Stack>
+                <Box mt={3}>
+                  <Tabs onChange={handleTabChange}
+            scrollButtons="auto"
+            value={currentTab}
+            variant="scrollable"
+            textColor="primary">
+                    {tabs.map(a => <Tab key={a.value} 
+                    label={a.label} 
+                    value={a.value}/>)}
+                  </Tabs>
+                </Box>
+                <Divider/>
+                <Box mt={3}>
+
+                      {currentTab == "upload" && <FileUpload/>}
+                      {currentTab == "reconciled" && <Reconciled/>}
+                      {currentTab == "unreconciled" && <Unreconciled/>}
+                </Box>
+                
         </Container>
       </Box>
     </>
