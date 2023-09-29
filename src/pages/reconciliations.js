@@ -228,7 +228,7 @@ const Page = () => {
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell>Requested Rows</TableCell>
+                  <TableCell>Requested Transactions</TableCell>
                   <TableCell>{stats?.RequestedRows}</TableCell>
                 </TableRow>
                 <TableRow>
@@ -236,7 +236,7 @@ const Page = () => {
                   <TableCell>{stats?.min_max_DateRange}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Uploaded Rows</TableCell>
+                  <TableCell>Uploaded Transactions</TableCell>
                   <TableCell>{stats?.UploadedRows}</TableCell>
                 </TableRow>
                 <TableRow>
@@ -245,7 +245,7 @@ const Page = () => {
                 </TableRow>
                 
                 <TableRow>
-                  <TableCell>UnReconciled Rows</TableCell>
+                  <TableCell>UnReconciled Transactions</TableCell>
                   <TableCell>{stats?.unreconciledRows}</TableCell>
                 </TableRow>
                 <TableRow>
