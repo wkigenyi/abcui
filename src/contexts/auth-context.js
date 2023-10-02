@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { useCreateAuthTokenMutation, useLazyRetrieveUserQuery } from 'src/services/api';
+import jwtDecode from 'jwt-decode';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -64,6 +66,11 @@ export const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
 
+  const [getToken,{isLoading}] = useCreateAuthTokenMutation()
+  const [getUser,{isFetching,isLoading:isLoadingUser}] = useLazyRetrieveUserQuery()
+
+  
+
   const initialize = async () => {
     // Prevent from calling twice in development mode with React.StrictMode enabled
     if (initialized.current) {
@@ -107,53 +114,48 @@ export const AuthProvider = (props) => {
     []
   );
 
-  const skip = () => {
-    try {
-      window.sessionStorage.setItem('authenticated', 'true');
-    } catch (err) {
-      console.error(err);
-    }
+  
 
-    const user = {
-      id: '5e86809283e28b96d2d38537',
-      avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Demo User',
-      email: 'demo@abcdemo.com'
-    };
-
-    dispatch({
-      type: HANDLERS.SIGN_IN,
-      payload: user
-    });
-  };
-
-  const signIn = async (email, password) => {
-    if (email !== 'demo@abcdemo.com' || password !== 'Password123!') {
+  const signIn = async (username, password) => {
+    /* if (email !== 'demo@abcdemo.com' || password !== 'Password123!') {
       throw new Error('Please check your email and password');
-    }
+    } */
 
-    try {
-      window.sessionStorage.setItem('authenticated', 'true');
-    } catch (err) {
-      console.error(err);
-    }
-
-    const user = {
-      id: '5e86809283e28b96d2d38537',
-      avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Demo User',
-      email: 'demo@abcdemo.com'
-    };
-
-    dispatch({
+    await getToken({username,password}).unwrap().then(
+      token => {
+        const {access,refresh} = token
+        getUser().unwrap().then(user => {
+          dispatch({
       type: HANDLERS.SIGN_IN,
       payload: user
     });
+        })
+        
+        try {
+          window.sessionStorage.setItem('authenticated', 'true');
+        } catch (err) {
+          console.error(err);
+        }
+
+      },
+      err => { 
+        if(err.status == 401){
+          throw new Error ("Wrong username or password")
+        }
+        throw new Error(JSON.stringify(err))
+      }
+    )
+
+    
+
+    
+
+    
   };
 
-  const signUp = async (email, name, password) => {
+  /* const signUp = async (email, name, password) => {
     throw new Error('Sign up is not implemented');
-  };
+  }; */
 
   const signOut = () => {
     dispatch({
@@ -165,10 +167,11 @@ export const AuthProvider = (props) => {
     <AuthContext.Provider
       value={{
         ...state,
-        skip,
+        //skip,
         signIn,
-        signUp,
-        signOut
+        //signUp,
+        signOut,
+        isLoading
       }}
     >
       {children}

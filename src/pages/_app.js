@@ -10,6 +10,8 @@ import { createTheme } from 'src/theme';
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
 import { SnackbarContent, SnackbarProvider } from 'notistack';
+import { Provider } from 'react-redux';
+import { store } from 'src/store';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -35,6 +37,7 @@ const App = (props) => {
           content="initial-scale=1, width=device-width"
         />
       </Head>
+      <Provider store={store}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <AuthProvider>
 
@@ -43,15 +46,14 @@ const App = (props) => {
             <CssBaseline />
             <AuthConsumer>
               {
-                (auth) => auth.isLoading
-                  ? <SplashScreen />
-                  : getLayout(<Component {...pageProps} />)
+                (auth) => getLayout(<Component {...pageProps} />)
               }
             </AuthConsumer>
             </SnackbarProvider>
           </ThemeProvider>
         </AuthProvider>
       </LocalizationProvider>
+      </Provider>
     </CacheProvider>
   );
 };
