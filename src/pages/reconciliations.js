@@ -18,6 +18,7 @@ import toast, {Toaster} from "react-hot-toast"
 import { useSnackbar } from 'notistack';
 import { File, Upload } from 'react-feather';
 import MUIDataTable from 'mui-datatables';
+import { useGetReconciledDataQuery, useGetUnReconciledDataQuery, useUploadFileMutation } from 'src/services/api';
 
 const now = new Date();
 
@@ -67,47 +68,40 @@ const FileUpload = () =>{
   const [stats,setStats] = useState()
   const [fileToProcess,setFileToProcess] = useState(null)
   const [isProcessing,setProcessing] = useState(false)
+  const [uploadFile,{isLoading,data}] = useUploadFileMutation()
 
   
 
   const {enqueueSnackbar} = useSnackbar()
 
+  
+  
+
 
   const handleFileProcess = async() =>{
+    
+    
     if(fileToProcess){
       setProcessing(true)
       try{
         const formData = new FormData()
-      formData.append("file",fileToProcess)
-      formData.append("swift_code","163747")
-      await fetch("/api/reconcile",{method:"POST",body:formData}).then(
-        response =>{
+        formData.append("file",fileToProcess)
+      
+        await uploadFile(formData).unwrap().then(
+          response =>{
           setFileToProcess(null)
           setProcessing(false)
-          response.json().then(
-            json_ => {
-              try{
-                const data = JSON.parse(json_)
-              setStats(data)
-              enqueueSnackbar(`${data["feedback"]}, Uploaded Rows: ${data["UploadedRows"]},Exceptions:${data["exceptionsRows"]}, Reconciled Rows: ${data["reconciledRows"]}`,{variant:"success"})
-              }catch(e){
-                enqueueSnackbar("An error occurred",{variant:"error"})
-              }
-              
-            },
-            err =>{
-              console.log(err)
-              setProcessing(false)
-              enqueueSnackbar("An error occurred",{variant:"error"})
-            }
-            )
+          enqueueSnackbar("The file has been uploaded",{variant:"success"})
         },
         error =>{
+          setProcessing(false)
+          enqueueSnackbar("An error occurred",{variant:"error"})
           console.log(error)
         }
       )
       }catch(e){ 
         console.log(e)
+        enqueueSnackbar("An error occurred",{variant:"error"})
       }
       
     }else{
@@ -208,48 +202,17 @@ const FileUpload = () =>{
 }
 
 const Reconciled = () =>{
-  const [records,setRecords] = useState([])
-  const [isFetching,setIsFetching] = useState(false)
-  useEffect(()=>{
-    setIsFetching(true)
-    fetch("/api/reconcileddata").then(
-      res => {
-        if(res.ok){
-          try{
-            res.json().then(data => setRecords(data))
-          }catch(e){
-            console.log(e)
-          }         
-          setIsFetching(false)
-        }
-      },
-      err => {setIsFetching(false); console.log(err)}
-    )
-  },[])
-  return isFetching?<Skeleton/>:<ResultsTable data={records} />
+  
+  const {data,isFetching,isLoading} = useGetReconciledDataQuery()
+  
+  return isFetching || isLoading ?<Skeleton/>:<ResultsTable data={data?data:[]} />
 }
 
 const Unreconciled = () =>{
 
-  const [records,setRecords] = useState([])
-  const [isFetching,setIsFetching] = useState(false)
-  useEffect(()=>{
-    setIsFetching(true)
-    fetch("/api/unreconcileddata").then(
-      res => {
-        if(res.ok){
-          try{
-            res.json().then(data => setRecords(data))
-          }catch(e){
-            console.log(e)
-          }         
-          setIsFetching(false)
-        }
-      },
-      err => {setIsFetching(false); console.log(err)}
-    )
-  },[])
-  return isFetching?<Skeleton/>:<ResultsTable data={records} />
+  const {data,isFetching,isLoading} = useGetUnReconciledDataQuery()
+  
+  return isFetching || isLoading ?<Skeleton/>:<ResultsTable data={data?data:[]} />
 }
 
 const Page = () => {

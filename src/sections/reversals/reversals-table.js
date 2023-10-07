@@ -16,7 +16,7 @@ import {
   Typography
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
-import { getInitials } from 'src/utils/get-initials';
+
 
 export const ReversalsTable = (props) => {
   const {
@@ -86,14 +86,14 @@ export const ReversalsTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
+              {items.map((customer,i) => {
                 const isSelected = selected.includes(customer.id);
                 
 
                 return (
                   <TableRow
                     hover
-                    key={customer.id}
+                    key={i}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
