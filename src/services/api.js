@@ -54,7 +54,7 @@ export const abcApi = createApi({
       query: ({username,password}) =>({url:"auth/jwt/create/",body:{username,password},method:"POST"})
     }),
     retrieveUser: builder.query({
-      query: () => `api/users/me`
+      query: () => `api/users/me/`
     }),
     logout: builder.mutation({
       query: () =>({
