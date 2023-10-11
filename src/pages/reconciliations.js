@@ -18,7 +18,7 @@ import toast, {Toaster} from "react-hot-toast"
 import { useSnackbar } from 'notistack';
 import { File, Upload } from 'react-feather';
 import MUIDataTable from 'mui-datatables';
-import { useGetReconciledDataQuery, useGetUnReconciledDataQuery, useUploadFileMutation } from 'src/services/api';
+import { useGetReconciledDataQuery, useGetUnReconciledDataQuery, useUploadFileMutation, useUploadReconFileMutation } from 'src/services/api';
 
 const now = new Date();
 
@@ -68,7 +68,7 @@ const FileUpload = () =>{
   const [stats,setStats] = useState()
   const [fileToProcess,setFileToProcess] = useState(null)
   const [isProcessing,setProcessing] = useState(false)
-  const [uploadFile,{isLoading,data}] = useUploadFileMutation()
+  const [uploadFile,{isLoading,data}] = useUploadReconFileMutation()
 
   
 

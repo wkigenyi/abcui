@@ -86,6 +86,22 @@ export const abcApi = createApi({
         }
         
       }
+    }),
+    uploadReconFile: builder.mutation({
+      
+      query: (file) =>{
+        const csrftoken = getCookie("csrftoken")
+        return {
+          url:`recon/reconcile/`,
+          body:file,
+          method:"POST",
+          headers:{
+            /* "Content-Type":"multipart/form-data", */
+            "X-CSRFToken":csrftoken
+          }
+        }
+        
+      }
     })
   })
 })
@@ -97,4 +113,5 @@ export const {
   useGetUnReconciledDataQuery,
   useGetExceptionsQuery,
   useUploadFileMutation,
+  useUploadReconFileMutation,
 } = abcApi
