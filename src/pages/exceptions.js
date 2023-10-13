@@ -11,6 +11,7 @@ import { CustomersTable } from 'src/sections/customer/customers-table';
 import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import { ExceptionsTable } from 'src/sections/customer/exceptions_table';
+import { useGetExceptionsQuery } from 'src/services/api';
 
 const now = new Date();
 
@@ -196,16 +197,9 @@ const Page = () => {
     []
   );
 
-  const [exceptions,setExceptions] = useState(null)
+  const {data} = useGetExceptionsQuery()
 
-  useEffect(()=>{
-    fetch("/api/exceptions?Swift_code_up=130447").then(
-      res =>{
-        res.json().then(data =>setExceptions(data),err =>console.log(err))
-      },
-      err =>{ console.log(err)}
-    )
-  },[])
+  
 
   return (
     <>
@@ -254,8 +248,8 @@ const Page = () => {
             </Stack>
             
             <ExceptionsTable
-              exceptions={exceptions}
-              count={data.length}
+              exceptions={data?data:[]}
+              count={data?data.length:0}
               items={customers}
               onDeselectAll={customersSelection.handleDeselectAll}
               onDeselectOne={customersSelection.handleDeselectOne}

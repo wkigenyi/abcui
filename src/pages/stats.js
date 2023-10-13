@@ -12,6 +12,7 @@ import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import { ExceptionsTable } from 'src/sections/customer/exceptions_table';
 import { StatsTable } from 'src/sections/customer/stats_table';
+import { useGetReconStatsQuery } from 'src/services/api';
 
 const now = new Date();
 
@@ -197,16 +198,9 @@ const Page = () => {
     []
   );
 
-  const [exceptions,setExceptions] = useState(null)
+  const {data,isFetching,isLoading} = useGetReconStatsQuery()
 
-  useEffect(()=>{
-    fetch("/api/reconstats?Swift_code_up=130447").then(
-      res =>{
-        res.json().then(data =>setExceptions(data),err =>console.log(err))
-      },
-      err =>{ console.log(err)}
-    )
-  },[])
+  
 
   return (
     <>
@@ -255,8 +249,8 @@ const Page = () => {
             </Stack>
             
             <StatsTable
-              exceptions={exceptions}
-              count={data.length}
+              exceptions={data?data:[]}
+              count={data?data.length:[]}
               items={customers}
               onDeselectAll={customersSelection.handleDeselectAll}
               onDeselectOne={customersSelection.handleDeselectOne}

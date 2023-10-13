@@ -69,8 +69,15 @@ export const abcApi = createApi({
       query: () => `api/reconciled_data`
     }),
     getExceptions: builder.query({
-      query: () => `api/exceptions`
+      query: () => `recon/exceptions/`
     }),
+    getReversals: builder.query({
+      query: () => `recon/reversals/`
+    }),
+    getReconStats: builder.query({
+      query: () => `recon/reconstats/`
+    }),
+    
     uploadFile: builder.mutation({
       
       query: (file) =>{
@@ -114,4 +121,6 @@ export const {
   useGetExceptionsQuery,
   useUploadFileMutation,
   useUploadReconFileMutation,
+  useGetReconStatsQuery,
+  useGetReversalsQuery
 } = abcApi

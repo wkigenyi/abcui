@@ -15,6 +15,7 @@ import { applyPagination } from 'src/utils/apply-pagination';
 import { useSelection } from 'src/hooks/use-selection';
 import { useState,useMemo,useCallback } from 'react';
 import { OverviewFailedReversals } from 'src/sections/overview/overview-failed-tab';
+import { useGetReversalsQuery } from 'src/services/api';
 
 const now = new Date();
 
@@ -145,6 +146,9 @@ const Page = () => {
   const customers = useCustomers(page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
+
+  const {data:reversals,isFetching,isLoading} = useGetReversalsQuery()
+  
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -369,17 +373,9 @@ const Page = () => {
         <Box mt={3}>
 
         <ReversalsTable
-              count={data.length}
-              items={customers}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
+              isLoading={isLoading || isFetching}
+
+              items={reversals?reversals:[]}
             />
 
         </Box>

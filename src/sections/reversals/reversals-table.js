@@ -6,6 +6,7 @@ import {
   Card,
   CardHeader,
   Checkbox,
+  Skeleton,
   Stack,
   Table,
   TableBody,
@@ -16,139 +17,39 @@ import {
   Typography
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
+import MUIDataTable from 'mui-datatables';
 
 
-export const ReversalsTable = (props) => {
-  const {
-    count = 0,
-    items = [],
-    onDeselectAll,
-    onDeselectOne,
-    onPageChange = () => {},
-    onRowsPerPageChange,
-    onSelectAll,
-    onSelectOne,
-    page = 0,
-    rowsPerPage = 0,
-    selected = []
-  } = props;
+export const ReversalsTable = ({items,isLoading}) => {
+  
+
+  const columns = [
+    {name:"date_time",label:"Time"},
+    {name:"trn_ref",label:"Trn Ref"},
+    {name:"trn_type",label:"Trn Type"},
+    {name:"amount",label:"Amount"},
+    {name:"reversal_type",label:"Reversal Type"},
+    {name:"transaction_status",label:"Transaction Status"},
+    {name:"issuer",label:"Issuer"},
+    {name:"acquirer",label:"Acquirer"}
+  ]
 
   
 
-  const selectedSome = (selected.length > 0) && (selected.length < items.length);
-  const selectedAll = (items.length > 0) && (selected.length === items.length);
-
+  
   return (
     <Card>
       <CardHeader title="Latest Reversals"/>
       <Scrollbar>
         <Box sx={{ minWidth: 800 }}>
-          <Table >
-            <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedAll}
-                    indeterminate={selectedSome}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        onSelectAll?.();
-                      } else {
-                        onDeselectAll?.();
-                      }
-                    }}
-                  />
-                </TableCell>
-                <TableCell>
-                  Transaction Date
-                </TableCell>
-                <TableCell>
-                  Reference
-                </TableCell>
-                <TableCell>
-                  Type
-                </TableCell>
-                <TableCell>
-                  Amount
-                </TableCell>
-                <TableCell>
-                  Reversal Type
-                </TableCell>
-                <TableCell>
-                  Status
-                </TableCell>
-                <TableCell>
-                  Issuer Bank
-                </TableCell>
-                <TableCell>
-                  Acquirer Bank
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {items.map((customer,i) => {
-                const isSelected = selected.includes(customer.id);
-                
-
-                return (
-                  <TableRow
-                    hover
-                    key={i}
-                    selected={isSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            onSelectOne?.(customer.id);
-                          } else {
-                            onDeselectOne?.(customer.id);
-                          }
-                        }}
-                      />
-                    </TableCell>
-                    
-                    <TableCell>
-                      {customer.transDate}
-                    </TableCell>
-                    <TableCell>
-                      {customer.transReference}
-                    </TableCell>
-                    <TableCell>
-                      {customer.transType}
-                    </TableCell>
-                    <TableCell>
-                      {customer.transAmount}
-                    </TableCell>
-                    <TableCell>
-                      {customer.revType}
-                    </TableCell>
-                    <TableCell>
-                      {customer.revStatus}
-                    </TableCell>
-                    <TableCell>
-                      {customer.issuerBank}
-                    </TableCell>
-                    <TableCell>
-                      {customer.acquirerBank}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+          {isLoading? <Skeleton/>:<MUIDataTable data={items} 
+          columns={columns}
+          options={{setTableProps:()=>{return {size:"small"}}}}
+          />}
+          
         </Box>
       </Scrollbar>
-      <TablePagination
-        component="div"
-        count={count}
-        onPageChange={onPageChange}
-        onRowsPerPageChange={onRowsPerPageChange}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
+      
     </Card>
   );
 };
