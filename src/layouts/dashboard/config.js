@@ -29,21 +29,13 @@ export const items = [
       </SvgIcon>
     )
   },
+  
   {
-    title: 'Turnover Settlement',
-    path: '/turnover',
-    icon: (
-      <SvgIcon fontSize="small">
-        <DollarIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Commission Settlement',
+    title: 'Commission / Turnover',
     path: '/commissions',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <DollarIcon />
       </SvgIcon>
     )
   },
