@@ -31,7 +31,7 @@ export const items = [
   },
   
   {
-    title: 'Commission / Turnover',
+    title: 'Settlement',
     path: '/commissions',
     icon: (
       <SvgIcon fontSize="small">
