@@ -63,10 +63,10 @@ export const abcApi = createApi({
       })
     }),
     getUnReconciledData: builder.query({
-      query: () => `api/unreconciled_data`
+      query: () => `recon/unreconcileddata/`
     }),
     getReconciledData: builder.query({
-      query: () => `api/reconciled_data`
+      query: () => `recon/reconcileddata/`
     }),
     getExceptions: builder.query({
       query: () => `recon/exceptions/`

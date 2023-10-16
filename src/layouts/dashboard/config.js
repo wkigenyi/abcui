@@ -8,15 +8,24 @@ import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
 import DollarIcon from "@heroicons/react/24/solid/CurrencyDollarIcon"
 import { SvgIcon } from '@mui/material';
-import { AlertCircle, PieChart } from 'react-feather';
+import { AlertCircle, PieChart,Rewind } from 'react-feather';
 
 export const items = [
   {
-    title: 'Reversal Monitoring',
+    title: 'Dashboard',
     path: '/',
     icon: (
       <SvgIcon fontSize="small">
         <ChartBarIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Reversals',
+    path: '/reversals',
+    icon: (
+      <SvgIcon fontSize="small">
+        <Rewind />
       </SvgIcon>
     )
   },

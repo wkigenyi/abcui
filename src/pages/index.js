@@ -145,17 +145,17 @@ const Page = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const customers = useCustomers(page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
-  const customersSelection = useSelection(customersIds);
+  /* const customersSelection = useSelection(customersIds); */
 
   const {data:reversals,isFetching,isLoading} = useGetReversalsQuery()
   
 
-  const handlePageChange = useCallback(
+  /* const handlePageChange = useCallback(
     (event, value) => {
       setPage(value);
     },
     []
-  );
+  ); */
 
   const handleRowsPerPageChange = useCallback(
     (event) => {
@@ -370,7 +370,7 @@ const Page = () => {
             />
           </Grid> */}
         </Grid>
-        <Box mt={3}>
+        {/* <Box mt={3}>
 
         <ReversalsTable
               isLoading={isLoading || isFetching}
@@ -378,7 +378,7 @@ const Page = () => {
               items={reversals?reversals:[]}
             />
 
-        </Box>
+        </Box> */}
       </Container>
     </Box>
 

@@ -39,7 +39,7 @@ export const ReversalsTable = ({items,isLoading}) => {
   
   return (
     <Card>
-      <CardHeader title="Latest Reversals"/>
+      
       <Scrollbar>
         <Box sx={{ minWidth: 800 }}>
           {isLoading? <Skeleton/>:<MUIDataTable data={items} 
