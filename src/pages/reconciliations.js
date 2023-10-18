@@ -88,16 +88,16 @@ const FileUpload = () =>{
         formData.append("file",fileToProcess)
       
         await uploadFile(formData).unwrap().then(
-          response =>{
+          res =>{
           setFileToProcess(null)
           setProcessing(false)
-          enqueueSnackbar(`${feedback}, ${ReconciledRows} Reconciled Transactions,
-          ${unreconciledRows} unreconciled Transactions,
-          ${exceptionsRows} exception transactions,
+          enqueueSnackbar(`${res.feedback}, ${res.ReconciledRows} Reconciled Transactions,
+          ${res.unreconciledRows} unreconciled Transactions,
+          ${res.exceptionsRows} exception transactions,
           
-          ${RequestedRows} requested transactions,
-          ${UploadedRows} Uploaded Transactions,
-          Date Range: ${min_max_DateRange}`,{variant:"success"})
+          ${res.RequestedRows} requested transactions,
+          ${res.UploadedRows} Uploaded Transactions,
+          Date Range: ${res.min_max_DateRange}`,{variant:"success"})
         },
         error =>{
           setProcessing(false)
