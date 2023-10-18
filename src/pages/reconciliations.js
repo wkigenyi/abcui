@@ -91,7 +91,13 @@ const FileUpload = () =>{
           response =>{
           setFileToProcess(null)
           setProcessing(false)
-          enqueueSnackbar("The file has been uploaded",{variant:"success"})
+          enqueueSnackbar(`${feedback}, ${ReconciledRows} Reconciled Transactions,
+          ${unreconciledRows} unreconciled Transactions,
+          ${exceptionsRows} exception transactions,
+          
+          ${RequestedRows} requested transactions,
+          ${UploadedRows} Uploaded Transactions,
+          Date Range: ${min_max_DateRange}`,{variant:"success"})
         },
         error =>{
           setProcessing(false)
