@@ -38,15 +38,16 @@ export const ExceptionsTable = (props) => {
   
 
   const columns = [
-    {name:"DATE_TIME",label:"Time"},
-    {name:"TRN_REF",label:"TRN Ref"},
-    {name:"TXN_TYPE",label:"TRN Type"},
-    {name:"ISSUER",label:"Issuer"},
-    {name:"ACQUIRER",label:"Acquirer"},
-    {name:"AMOUNT",label:"Amount"},
+    {name:"date_time",label:"Time"},
+    {name:"tran_date",label:"Trn Date"},
+    {name:"trn_ref",label:"TRN Ref"},
+    {name:"batch",label:"BATCH"},
+    {name:"acquirer_code",label:"Acquirer"},
+    {name:"issuer_code",label:"Issuer"},
+    /* {name:"AMOUNT",label:"Amount"},
     {name:"TRANSACTION_STATUS",label:"Status"},
     {name:"LEG1_STATUS",label:"L1"},
-    {name:"LEG2_STATUS",label:"L2"},
+    {name:"LEG2_STATUS",label:"L2"}, */
   ]
 
   

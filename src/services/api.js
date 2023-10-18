@@ -2,6 +2,7 @@ import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 import {Mutex} from "async-mutex"
 import { logout, setAuth } from "src/redux/features/authSlice"
 import { getCookie } from "../utils/getCookieByName"
+import { batch } from "react-redux"
 
 
 
@@ -77,6 +78,10 @@ export const abcApi = createApi({
     getReconStats: builder.query({
       query: () => `recon/reconstats/`
     }),
+
+    createSettlementCsvFile: builder.mutation({
+      query: (batch) =>({url:"settlementcsv_files/",body:{batch},method:"POST"})
+    }),
     
     uploadFile: builder.mutation({
       
@@ -116,6 +121,7 @@ export const abcApi = createApi({
 export const {
   useCreateAuthTokenMutation,
   useLazyRetrieveUserQuery,
+  useCreateSettlementCsvFileMutation,
   useGetReconciledDataQuery,
   useGetUnReconciledDataQuery,
   useGetExceptionsQuery,
