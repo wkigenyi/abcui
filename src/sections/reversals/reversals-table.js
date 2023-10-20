@@ -18,17 +18,18 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import MUIDataTable from 'mui-datatables';
+import numeral from 'numeral';
 
 
 export const ReversalsTable = ({items,isLoading}) => {
   
 
   const columns = [
-    {name:"date_time",label:"Time"},
+    {name:"date_time",label:"Time", options:{customBodyRender: value => format(new Date(value),"dd-MMM-yyyy")}},
     {name:"trn_ref",label:"Trn Ref"},
     {name:"trn_type",label:"Trn Type"},
-    {name:"amount",label:"Amount"},
-    {name:"reversal_type",label:"Reversal Type"},
+    {name:"amount",label:"Amount",options:{customBodyRender: value => numeral(value).format("0,00")}},
+    {name:"reversal_type",label:"Reversal Type",options:{display:false}},
     {name:"transaction_status",label:"Transaction Status"},
     {name:"issuer",label:"Issuer"},
     {name:"acquirer",label:"Acquirer"}
