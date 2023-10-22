@@ -104,6 +104,8 @@ const ReconSummary = ({data}) =>{
     search:false,
     filter:false,
     confirmFilters:false,
+    pagination:false,
+    selectableRows:"none"
     
     
   }}
