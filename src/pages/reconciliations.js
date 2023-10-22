@@ -1,45 +1,70 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
-import { subDays, subHours } from 'date-fns';
-import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
-import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
+
 import { Box, Button, CircularProgress, Container, Divider, Skeleton, Stack, SvgIcon, Tab, Table, TableBody, TableCell, TableHead, TableRow, Tabs, Typography } from '@mui/material';
-import { useSelection } from 'src/hooks/use-selection';
+
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
+
+
 
 /* import { CustomersSearch } from 'src/sections/customer/customers-search';
 import {FilePlus} from "react-feather" */
-import { applyPagination } from 'src/utils/apply-pagination';
-import { ReconciliationsTable } from 'src/sections/customer/reconciliations-table';
+
 import { styled } from '@mui/material/styles';
-import axios from 'axios';
-import toast, {Toaster} from "react-hot-toast"
+
 import { useSnackbar } from 'notistack';
 import { File, Upload } from 'react-feather';
 import MUIDataTable from 'mui-datatables';
-import { useGetReconciledDataQuery, useGetUnReconciledDataQuery, useUploadFileMutation, useUploadReconFileMutation } from 'src/services/api';
+import { useUploadReconFileMutation } from 'src/services/api';
+import numeral from 'numeral';
+import { format } from 'date-fns';
 
-const now = new Date();
 
-const data = [
-  
-];
+
+
 
 const ResultsTable = ({data}) =>{
   const columns = [
-    {name:"ACQUIRER_CODE",label:"ACQUIRER CODE"},
-    {name:"AMOUNT",label:"AMOUNT"},
-    {name:"BATCH",label:"BATCH"},
-    {name:"DATE_TIME",label:"TIME"},
-    {name:"ISSUER_CODE",label:"ISSUER CODE"},
-    {name:"RESPONSE_CODE",label:"RESPONSE CODE"},
-    {name:"TRN_REF2",label:"TRAN REF"},
-    {name:"TXN_TYPE",label:"TXN TYPE"}
+    /* {name:"ACQUIRER_CODE",label:"ACQUIRER CODE"}, */
+    {name:"DATE",label:"DATE"},
+    {name:"AMOUNT",label:"AMOUNT", options:{customBodyRender: value =>numeral(value).format("0,00")}},
+    {name:"MERGE",label:"MERGE"},
+    /* {name:"DATE_TIME",label:"TIME"}, */
+    {name:"STATUS",label:"STATUS"},
+    /* {name:"RESPONSE_CODE",label:"RESPONSE CODE"}, */
+    {name:"TRN_REF",label:"TRAN REF"},
+    {name:"TXN TYPE",label:"TXN TYPE"}
   ]
 
   return <MUIDataTable data={data} 
-  columns={columns}/>
+  columns={columns}
+  options={{setTableProps: ()=>{return {size:"small"}}}}
+  />
+  
+}
+
+const ReconsiledResultsTable = ({data}) =>{
+  const columns = [
+    /* {name:"ACQUIRER_CODE",label:"ACQUIRER CODE"}, */
+    {name:"DATE_TIME",label:"DATE",options:{customBodyRender: value => format(new Date(value),"dd-MMM-yyyy")}},
+    {name:"ABC REFERENCE",label:"ABC REF"},
+    {name:"BATCH"},
+    {name:"ISSUER_CODE"},
+    {name:"ACQUIRER_CODE"},
+    /* {name:"AMOUNT",label:"AMOUNT", options:{customBodyRender: value =>numeral(value).format("0,00")}}, */
+    {name:"MERGE",label:"MERGE"},
+    /* {name:"DATE_TIME",label:"TIME"}, */
+    {name:"STATUS",label:"STATUS"},
+    {name:"RESPONSE_CODE",label:"CODE"}, 
+    
+    
+  ]
+
+  return <MUIDataTable data={data} 
+  columns={columns}
+  options={{setTableProps: ()=>{return {size:"small"}}}}
+  />
+  
 }
 
 
@@ -56,7 +81,37 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const FileUpload = () =>{
+const ReconSummary = ({data}) =>{
+
+  
+
+  const items = [
+    {item:"Feedback",value:data.feedback},
+    {item:"Reconciled Transactions",value:data.reconciledRows},
+    {item:"Unreconciled Transactions",value:data.unreconciledRows},
+    {item:"Requested Transactions",value:data.RequestedRows},
+    {item:"Uploaded Transactions",value:data.UploadedRows},
+    {item:"Date Range",value:data.min_max_DateRange},
+  ]
+  
+
+  const columns = [{name:"item", label:"Field"},{name:"value",label:"Value"}]
+  return <MUIDataTable 
+  columns={columns} 
+  data={items}
+  options={{
+    setTableProps: ()=>{return {size:"small"}},
+    search:false,
+    filter:false,
+    confirmFilters:false,
+    
+    
+  }}
+  />
+
+}
+
+const FileUpload = ({setData}) =>{
 
   const [stats,setStats] = useState()
   const [fileToProcess,setFileToProcess] = useState(null)
@@ -82,9 +137,10 @@ const FileUpload = () =>{
       
         await uploadFile(formData).unwrap().then(
           res =>{
+            setData(res)
           setFileToProcess(null)
           setProcessing(false)
-          enqueueSnackbar(`${res.feedback}, ${res.ReconciledRows} Reconciled Transactions,
+          enqueueSnackbar(`${res.feedback}, ${res.reconciledRows} Reconciled Transactions,
           ${res.unreconciledRows} unreconciled Transactions,
           ${res.exceptionsRows} exception transactions,
           
@@ -200,18 +256,18 @@ const FileUpload = () =>{
 </Stack></Stack></Stack>
 }
 
-const Reconciled = () =>{
+const Reconciled = ({data}) =>{
   
-  const {data,isFetching,isLoading} = useGetReconciledDataQuery()
   
-  return isFetching || isLoading ?<Skeleton/>:<ResultsTable data={data?data:[]} />
+  
+  return <ReconsiledResultsTable data={data?data:[]} />
 }
 
-const Unreconciled = () =>{
+const Unreconciled = ({data}) =>{
 
-  const {data,isFetching,isLoading} = useGetUnReconciledDataQuery()
   
-  return isFetching || isLoading ?<Skeleton/>:<ResultsTable data={data?data:[]} />
+  
+  return <ResultsTable data={data?data:[]} />
 }
 
 const Page = () => {
@@ -220,7 +276,10 @@ const Page = () => {
     {value:"upload",label:"File Upload"},
     {value:"reconciled",label:"Reconciled Transactions"},
     {value:"unreconciled",label:"Unreconciled Transactions"},
+    {value:"summary",label:"Summary"},
   ]
+
+  const [data,setData] = useState(null)
 
   const [currentTab,setCurrentTab] = useState("upload")
 
@@ -271,9 +330,10 @@ const Page = () => {
                 <Divider/>
                 <Box mt={3}>
 
-                      {currentTab == "upload" && <FileUpload/>}
-                      {currentTab == "reconciled" && <Reconciled/>}
-                      {currentTab == "unreconciled" && <Unreconciled/>}
+                      {currentTab == "upload" && <FileUpload setData={setData}/>}
+                      {currentTab == "reconciled" && <Reconciled data={data?data.reconciled_data:[]}/>}
+                      {currentTab == "unreconciled" && <Unreconciled data={data?data.succunreconciled_data:[]}/>}
+                      {currentTab == "summary" && <ReconSummary data={data}/>}
                 </Box>
                 
         </Container>
