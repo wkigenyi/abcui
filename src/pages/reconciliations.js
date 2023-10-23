@@ -142,13 +142,7 @@ const FileUpload = ({setData}) =>{
             setData(res)
           setFileToProcess(null)
           setProcessing(false)
-          enqueueSnackbar(`${res.feedback}, ${res.reconciledRows} Reconciled Transactions,
-          ${res.unreconciledRows} unreconciled Transactions,
-          ${res.exceptionsRows} exception transactions,
-          
-          ${res.RequestedRows} requested transactions,
-          ${res.UploadedRows} Uploaded Transactions,
-          Date Range: ${res.min_max_DateRange}`,{variant:"success"})
+          enqueueSnackbar("Reconciliation Completed, See Summary For Details",{variant:"success"})
         },
         error =>{
           setProcessing(false)
