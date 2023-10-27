@@ -85,14 +85,14 @@ const ReconSummary = ({data}) =>{
 
   
 
-  const items = [
+  const items = data?[
     {item:"Feedback",value:data.feedback},
     {item:"Reconciled Transactions",value:data.reconciledRows},
     {item:"Unreconciled Transactions",value:data.unreconciledRows},
     {item:"Requested Transactions",value:data.RequestedRows},
     {item:"Uploaded Transactions",value:data.UploadedRows},
     {item:"Date Range",value:data.min_max_DateRange},
-  ]
+  ]:[]
   
 
   const columns = [{name:"item", label:"Field"},{name:"value",label:"Value"}]
@@ -105,7 +105,13 @@ const ReconSummary = ({data}) =>{
     filter:false,
     confirmFilters:false,
     pagination:false,
-    selectableRows:"none"
+    selectableRows:"none",
+    responsive:"standard",
+    textLabels:{
+      body:{
+        noMatch: "No data to display, data is only available after reconciliation"
+      }
+    }
     
     
   }}
