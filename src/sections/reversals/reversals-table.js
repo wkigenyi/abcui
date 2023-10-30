@@ -66,7 +66,7 @@ export const ReversalsTable = ({items,isLoading}) => {
     {name:"Request_type",label:"Reversal Type", options:{
       customBodyRenderLite: index => computeReversalType(items[index])
     }},
-    {name:"transaction_status",label:"Transaction Status",options:{display:false}},
+    
     {name:"issuer",label:"Issuer"},
     {name:"acquirer",label:"Acquirer"},
     {name:"txn_type",label:"Transaction Type"},
