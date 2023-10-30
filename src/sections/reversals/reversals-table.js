@@ -23,8 +23,34 @@ import numeral from 'numeral';
 
 export const ReversalsTable = ({items,isLoading}) => {
 
-  console.log(items)
+  const computeReversalType = item =>{
+    let status = "";
+    switch(item.request_type){
+
+      case "1420": 
+        status = "Reversal";
+        break;
+      case "1421":
+        status = "Repeat Reversal";
+        break;
+      
+
+    }
+    return status
+  }
   
+  const computeStatusType = item =>{
+    let status = "";
+    if(!item.response_code){
+      status = "Pending"
+    }else if(item.response_code== '0' || item.response_code == '00'){
+      status = "Successful"
+    }else{
+      status = "Failed"
+    }
+    
+    return status
+  }
 
   const columns = [
     {name:"date_time",label:"Transaction Date", options:{customBodyRender: value => format(new Date(value),"dd-MMM-yyyy")}},
@@ -37,12 +63,16 @@ export const ReversalsTable = ({items,isLoading}) => {
         customBodyRender: value => numeral(value).format("0,00"),
       }
     },
-    {name:"Request_type",label:"Reversal Type"},
+    {name:"Request_type",label:"Reversal Type", options:{
+      customBodyRenderLite: index => computeReversalType(items[index])
+    }},
     {name:"transaction_status",label:"Transaction Status",options:{display:false}},
     {name:"issuer",label:"Issuer"},
     {name:"acquirer",label:"Acquirer"},
     {name:"txn_type",label:"Transaction Type"},
-    {name:"Status",label:"Status"},
+    {name:"Status",label:"Status", options:{
+      customBodyRenderLite: index => computeStatusType(items[index])
+    }},
   ]
 
   

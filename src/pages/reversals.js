@@ -198,7 +198,7 @@ const Page = () => {
     []
   );
 
-  const {data:reversals,isFetching,isLoading} = useGetReversalsQuery()
+  const {data:reversals = [],isFetching,isLoading} = useGetReversalsQuery()
 
   
 
