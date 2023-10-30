@@ -42,7 +42,7 @@ export const ReversalsTable = ({items,isLoading}) => {
     {name:"issuer",label:"Issuer"},
     {name:"acquirer",label:"Acquirer"},
     {name:"txn_type",label:"Transaction Type"},
-    {name:"Status",label:"Transaction Type"},
+    {name:"Status",label:"Status"},
   ]
 
   
