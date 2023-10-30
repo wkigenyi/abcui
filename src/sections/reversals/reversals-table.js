@@ -35,7 +35,7 @@ export const ReversalsTable = ({items,isLoading}) => {
         customBodyRender: value => numeral(value).format("0,00"),
       }
     },
-    {name:"reversal_type",label:"Reversal Type"},
+    {name:"type",label:"Reversal Type"},
     {name:"transaction_status",label:"Transaction Status",options:{display:false}},
     {name:"issuer",label:"Issuer"},
     {name:"acquirer",label:"Acquirer"},

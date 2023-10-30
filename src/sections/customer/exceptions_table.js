@@ -39,7 +39,7 @@ export const ExceptionsTable = (props) => {
   
 
   const columns = [
-    {name:"date_time",label:"Time"},
+    
     {name:"tran_date",label:"Transaction Date"},
     {name:"trn_ref",label:"ABC Ref"},
     {name:"batch",label:"BATCH", options:{display:false}},
