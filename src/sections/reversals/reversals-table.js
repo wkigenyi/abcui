@@ -27,12 +27,19 @@ export const ReversalsTable = ({items,isLoading}) => {
   const columns = [
     {name:"date_time",label:"Time", options:{customBodyRender: value => format(new Date(value),"dd-MMM-yyyy")}},
     {name:"trn_ref",label:"Trn Ref"},
-    {name:"trn_type",label:"Trn Type"},
-    {name:"amount",label:"Amount",options:{customBodyRender: value => numeral(value).format("0,00")}},
+    {
+      name:"amount",
+      label:"Amount",
+      options:{
+        setCellProps: ()=>({style:{align:"right"}}),
+        customBodyRender: value => numeral(value).format("0,00"),
+      }
+    },
     {name:"reversal_type",label:"Reversal Type",options:{display:false}},
-    {name:"transaction_status",label:"Transaction Status"},
+    {name:"transaction_status",label:"Transaction Status",options:{display:false}},
     {name:"issuer",label:"Issuer"},
-    {name:"acquirer",label:"Acquirer"}
+    {name:"acquirer",label:"Acquirer"},
+    {name:"txn_type",label:"Trn Type"},
   ]
 
   

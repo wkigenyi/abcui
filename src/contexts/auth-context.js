@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useCreateAuthTokenMutation, useLazyRetrieveUserQuery } from 'src/services/api';
-import jwtDecode from 'jwt-decode';
+
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -88,17 +88,15 @@ export const AuthProvider = (props) => {
     }
 
     if (isAuthenticated) {
-      const user = {
-        id: '5e86809283e28b96d2d38537',
-        avatar: '/assets/avatars/avatar-anika-visser.png',
-        name: 'Demo User',
-        email: 'demo@abcdemo.com'
-      };
+      let user = window.sessionStorage.getItem("abcUser")
+      if (user){
+        dispatch({
+          type: HANDLERS.INITIALIZE,
+          payload: JSON.parse(user)
+        });
+      }
 
-      dispatch({
-        type: HANDLERS.INITIALIZE,
-        payload: user
-      });
+      
     } else {
       dispatch({
         type: HANDLERS.INITIALIZE
@@ -117,18 +115,23 @@ export const AuthProvider = (props) => {
   
 
   const signIn = async (username, password) => {
-    /* if (email !== 'demo@abcdemo.com' || password !== 'Password123!') {
-      throw new Error('Please check your email and password');
-    } */
+    
 
     await getToken({username,password}).unwrap().then(
       token => {
         const {access,refresh} = token
         getUser().unwrap().then(user => {
+
+          try{
+            window.sessionStorage.setItem('abcUser', JSON.stringify(user));
+          }catch(e){
+
+          }
+          
           dispatch({
-      type: HANDLERS.SIGN_IN,
-      payload: user
-    });
+            type: HANDLERS.SIGN_IN,
+            payload: user
+          });
         })
         
         try {

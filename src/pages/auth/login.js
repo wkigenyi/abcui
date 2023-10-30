@@ -179,7 +179,7 @@ const Page = () => {
                 >
                   Skip authentication
                 </Button> */}
-                <Alert
+                {/* <Alert
                   color="primary"
                   severity="info"
                   sx={{ mt: 3 }}
@@ -187,7 +187,7 @@ const Page = () => {
                   <div>
                     You can use <b>demo@abcdemo.com</b> and password <b>Password123!</b>
                   </div>
-                </Alert>
+                </Alert> */}
               </form>
             )}
             {/* {method === 'phoneNumber' && (
