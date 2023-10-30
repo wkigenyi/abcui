@@ -25,8 +25,8 @@ export const ReversalsTable = ({items,isLoading}) => {
   
 
   const columns = [
-    {name:"date_time",label:"Time", options:{customBodyRender: value => format(new Date(value),"dd-MMM-yyyy")}},
-    {name:"trn_ref",label:"Trn Ref"},
+    {name:"date_time",label:"Transaction Date", options:{customBodyRender: value => format(new Date(value),"dd-MMM-yyyy")}},
+    {name:"trn_ref",label:"ABC Reference"},
     {
       name:"amount",
       label:"Amount",
@@ -35,11 +35,11 @@ export const ReversalsTable = ({items,isLoading}) => {
         customBodyRender: value => numeral(value).format("0,00"),
       }
     },
-    {name:"reversal_type",label:"Reversal Type",options:{display:false}},
+    {name:"reversal_type",label:"Reversal Type"},
     {name:"transaction_status",label:"Transaction Status",options:{display:false}},
     {name:"issuer",label:"Issuer"},
     {name:"acquirer",label:"Acquirer"},
-    {name:"txn_type",label:"Trn Type"},
+    {name:"txn_type",label:"Transaction Type"},
   ]
 
   
