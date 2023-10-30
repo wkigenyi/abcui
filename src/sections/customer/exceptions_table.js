@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import MUIDataTable from 'mui-datatables';
+import numeral from 'numeral';
 
 export const ExceptionsTable = (props) => {
   const {
@@ -44,8 +45,8 @@ export const ExceptionsTable = (props) => {
     {name:"batch",label:"BATCH"},
     {name:"acquirer_code",label:"Acquirer"},
     {name:"issuer_code",label:"Issuer"},
-    /* {name:"AMOUNT",label:"Amount"},
-    {name:"TRANSACTION_STATUS",label:"Status"},
+    {name:"amount",label:"Amount", options:{customBodyRender: value => value? numeral(value).format("0,00"):""}},
+    /* {name:"TRANSACTION_STATUS",label:"Status"},
     {name:"LEG1_STATUS",label:"L1"},
     {name:"LEG2_STATUS",label:"L2"}, */
   ]

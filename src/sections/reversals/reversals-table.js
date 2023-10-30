@@ -31,7 +31,7 @@ export const ReversalsTable = ({items,isLoading}) => {
       name:"amount",
       label:"Amount",
       options:{
-        setCellProps: ()=>({style:{align:"right"}}),
+        setCellProps: ()=>({align:"right",style:{maxWidth:"80px"}}),
         customBodyRender: value => numeral(value).format("0,00"),
       }
     },
