@@ -22,6 +22,8 @@ import numeral from 'numeral';
 
 
 export const ReversalsTable = ({items,isLoading}) => {
+
+  console.log(items)
   
 
   const columns = [
@@ -35,11 +37,12 @@ export const ReversalsTable = ({items,isLoading}) => {
         customBodyRender: value => numeral(value).format("0,00"),
       }
     },
-    {name:"type",label:"Reversal Type"},
+    {name:"Request_type",label:"Reversal Type"},
     {name:"transaction_status",label:"Transaction Status",options:{display:false}},
     {name:"issuer",label:"Issuer"},
     {name:"acquirer",label:"Acquirer"},
     {name:"txn_type",label:"Transaction Type"},
+    {name:"Status",label:"Transaction Type"},
   ]
 
   
