@@ -38,13 +38,13 @@ export const StatsTable = (props) => {
   
 
   const columns = [
-    {name:"rq_rws",label:"Requested Txns"},
+    {name:"rq_rws",label:"ABC Transactions"},
     {name:"rq_date_range",label:"Requested Date Range"},
-    {name:"upld_rws",label:"Uploaded Txns"},
-    {name:"excep_rws",label:"Exception Txns"},
-    {name:"recon_rws",label:"Reconciled Txns"},
-    {name:"unrecon_rws",label:"Unreconciled Txns"},
-    {name:"feedback",label:"Feedback"},
+    {name:"upld_rws",label:"Uploaded Transactions"},
+    {name:"excep_rws",label:"Exceptions"},
+    {name:"recon_rws",label:"Reconciled Transactions"},
+    {name:"unrecon_rws",label:"Unreconciled Transactions"},
+    {name:"feedback",label:"Comment"},
     
   ]
 
