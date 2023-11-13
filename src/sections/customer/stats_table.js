@@ -21,17 +21,7 @@ import MUIDataTable from 'mui-datatables';
 export const StatsTable = (props) => {
   const {
     exceptions,
-    count = 0,
-    items = [],
-    onDeselectAll,
-    onDeselectOne,
-    onPageChange = () => {},
-    onRowsPerPageChange,
-    onSelectAll,
-    onSelectOne,
-    page = 0,
-    rowsPerPage = 0,
-    selected = []
+    
   } = props;
 
   

@@ -13,7 +13,7 @@ import {FilePlus} from "react-feather" */
 import { styled } from '@mui/material/styles';
 
 import { useSnackbar } from 'notistack';
-import { File, Upload } from 'react-feather';
+import { Download, File, Upload } from 'react-feather';
 import MUIDataTable from 'mui-datatables';
 import { useUploadReconFileMutation } from 'src/services/api';
 import numeral from 'numeral';
@@ -311,10 +311,24 @@ const Page = () => {
           py: 8
         }}
       >
-       <Typography variant="h4" 
+        <Box display={"flex"} >
+          
+        <Typography variant="h4" 
        sx={{ml:3}}>
           Reconciliations
-        </Typography> 
+        </Typography>
+        <Box flexGrow={1}/>
+        <Button 
+        variant="contained" 
+        startIcon={<Download/>} 
+        title='Download Template' 
+        LinkComponent={"a"}  
+        sx={{mr:3}}
+        download={true}
+        href='/recon_template.xlsx'
+        >Download Template</Button>
+        </Box>
+        
         <Container maxWidth="xl">
           
                 
