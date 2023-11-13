@@ -30,7 +30,7 @@ export const items = [
     )
   },
   
-  {
+  /* {
     title: 'Settlement',
     path: '/commissions',
     icon: (
@@ -38,7 +38,7 @@ export const items = [
         <DollarIcon />
       </SvgIcon>
     )
-  },
+  }, */
   /* {
     title: 'Account',
     path: '/account',
