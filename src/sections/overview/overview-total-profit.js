@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 import { PieChart } from 'react-feather';
+import Link from 'next/link';
 
 export const OverviewTotalProfit = (props) => {
   const { value, sx } = props;
@@ -12,6 +13,9 @@ export const OverviewTotalProfit = (props) => {
         <Stack
           alignItems="flex-start"
           direction="row"
+          component={Link}
+          sx={{textDecoration:"none"}}
+          href={'/stats'}
           justifyContent="space-between"
           spacing={3}
         >
@@ -22,9 +26,7 @@ export const OverviewTotalProfit = (props) => {
             >
               Statistics
             </Typography>
-            <Typography variant="h4">
-              {value}
-            </Typography>
+            
           </Stack>
           <Avatar
             sx={{
@@ -38,6 +40,27 @@ export const OverviewTotalProfit = (props) => {
             </SvgIcon>
           </Avatar>
         </Stack>
+        <Stack
+            alignItems="center"
+            direction="row"
+            spacing={2}
+            sx={{ mt: 2 }}
+          >
+            <Stack
+              alignItems="center"
+              direction="row"
+              spacing={0.5}
+            >
+              
+              <Typography
+                
+                variant="body2"
+              >
+                Statistics about reconciliations with ABC
+              </Typography>
+            </Stack>
+            
+          </Stack>
       </CardContent>
     </Card>
   );

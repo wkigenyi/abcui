@@ -5,6 +5,7 @@ import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
 import { AlertCircle } from 'react-feather';
+import Link from 'next/link';
 
 export const OverviewFailedReversals = (props) => {
   const { difference, positive = false, sx, value } = props;
@@ -15,6 +16,9 @@ export const OverviewFailedReversals = (props) => {
         <Stack
           alignItems="flex-start"
           direction="row"
+          component={Link}
+          href={'/exceptions'}
+          sx={{textDecoration:"none"}}
           justifyContent="space-between"
           spacing={3}
         >
@@ -25,9 +29,7 @@ export const OverviewFailedReversals = (props) => {
             >
               Exceptions
             </Typography>
-            <Typography variant="h4">
-              {value}
-            </Typography>
+            
           </Stack>
           <Avatar
             sx={{
@@ -41,7 +43,7 @@ export const OverviewFailedReversals = (props) => {
             </SvgIcon>
           </Avatar>
         </Stack>
-        {difference && (
+        
           <Stack
             alignItems="center"
             direction="row"
@@ -53,27 +55,18 @@ export const OverviewFailedReversals = (props) => {
               direction="row"
               spacing={0.5}
             >
-              <SvgIcon
-                color={positive ? 'success' : 'error'}
-                fontSize="small"
-              >
-                {positive ? <ArrowUpIcon /> : <ArrowDownIcon />}
-              </SvgIcon>
+              
               <Typography
-                color={positive ? 'success.main' : 'error.main'}
+                
                 variant="body2"
               >
-                {difference}%
+                Exceptions
               </Typography>
             </Stack>
-            <Typography
-              color="text.secondary"
-              variant="caption"
-            >
-              Since last month
-            </Typography>
+            
+            
           </Stack>
-        )}
+        
       </CardContent>
     </Card>
   );

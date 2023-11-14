@@ -5,6 +5,7 @@ import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
 import CogIcon from '@heroicons/react/24/solid/CogIcon';
+import Link from 'next/link';
 
 export const OverviewTotalCustomers = (props) => {
   const { difference, positive = false, sx, value } = props;
@@ -15,6 +16,9 @@ export const OverviewTotalCustomers = (props) => {
         <Stack
           alignItems="flex-start"
           direction="row"
+          component={Link}
+          href={`/reconciliations`}
+          sx={{textDecoration:"none"}}
           justifyContent="space-between"
           spacing={3}
         >
@@ -25,9 +29,7 @@ export const OverviewTotalCustomers = (props) => {
             >
               Reconciliations
             </Typography>
-            <Typography variant="h4">
-              {value}
-            </Typography>
+            
           </Stack>
           <Avatar
             sx={{
@@ -41,7 +43,7 @@ export const OverviewTotalCustomers = (props) => {
             </SvgIcon>
           </Avatar>
         </Stack>
-        {difference && (
+        
           <Stack
             alignItems="center"
             direction="row"
@@ -53,27 +55,17 @@ export const OverviewTotalCustomers = (props) => {
               direction="row"
               spacing={0.5}
             >
-              <SvgIcon
-                color={positive ? 'success' : 'error'}
-                fontSize="small"
-              >
-                {positive ? <ArrowUpIcon /> : <ArrowDownIcon />}
-              </SvgIcon>
+              
               <Typography
-                color={positive ? 'success.main' : 'error.main'}
+                
                 variant="body2"
               >
-                {difference}%
+                Reconcile Transactions with ABC
               </Typography>
             </Stack>
-            <Typography
-              color="text.secondary"
-              variant="caption"
-            >
-              Since last month
-            </Typography>
+            
           </Stack>
-        )}
+        
       </CardContent>
     </Card>
   );
