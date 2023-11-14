@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
+import { PieChart } from 'react-feather';
 
 export const OverviewTotalProfit = (props) => {
   const { value, sx } = props;
@@ -19,7 +20,7 @@ export const OverviewTotalProfit = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Retrials
+              Statistics
             </Typography>
             <Typography variant="h4">
               {value}
@@ -33,7 +34,7 @@ export const OverviewTotalProfit = (props) => {
             }}
           >
             <SvgIcon>
-              <CurrencyDollarIcon />
+              <PieChart />
             </SvgIcon>
           </Avatar>
         </Stack>

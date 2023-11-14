@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -22,6 +22,12 @@ import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 const Page = () => {
   const router = useRouter();
   const auth = useAuth();
+
+  useEffect(()=>{
+    if(auth.user){
+      router.push("/")
+    }
+  })
   
   const [method, setMethod] = useState('jwt');
   const formik = useFormik({

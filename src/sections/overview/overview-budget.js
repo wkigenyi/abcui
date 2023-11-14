@@ -2,17 +2,23 @@ import PropTypes from 'prop-types';
 import ArrowDownIcon from '@heroicons/react/24/solid/ArrowDownIcon';
 import ArrowUpIcon from '@heroicons/react/24/solid/ArrowUpIcon';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
-import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
+import { Avatar, Card, CardActionArea, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
+import { Rewind } from 'react-feather';
+import Link from "next/link"
 
 export const OverviewBudget = (props) => {
   const { difference, positive = false, sx, value } = props;
 
   return (
     <Card sx={sx}>
+      <CardActionArea>
       <CardContent>
         <Stack
           alignItems="flex-start"
           direction="row"
+          component={Link}
+          href={"/reversals"}
+          sx={{textDecoration:"none"}}
           justifyContent="space-between"
           spacing={3}
         >
@@ -21,11 +27,9 @@ export const OverviewBudget = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              All Reversals
+              Reversals
             </Typography>
-            <Typography variant="h4">
-              {value}
-            </Typography>
+            
           </Stack>
           <Avatar
             sx={{
@@ -35,11 +39,11 @@ export const OverviewBudget = (props) => {
             }}
           >
             <SvgIcon>
-              <CurrencyDollarIcon />
+              <Rewind />
             </SvgIcon>
           </Avatar>
         </Stack>
-        {difference && (
+        
           <Stack
             alignItems="center"
             direction="row"
@@ -51,28 +55,19 @@ export const OverviewBudget = (props) => {
               direction="row"
               spacing={0.5}
             >
-              <SvgIcon
-                color={positive ? 'success' : 'error'}
-                fontSize="small"
-              >
-                {positive ? <ArrowUpIcon /> : <ArrowDownIcon />}
-              </SvgIcon>
+              
               <Typography
-                color={positive ? 'success.main' : 'error.main'}
+                
                 variant="body2"
               >
-                {difference}%
+                View the status of reversals
               </Typography>
             </Stack>
-            <Typography
-              color="text.secondary"
-              variant="caption"
-            >
-              Since last month
-            </Typography>
+            
           </Stack>
-        )}
+        
       </CardContent>
+      </CardActionArea>
     </Card>
   );
 };

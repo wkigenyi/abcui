@@ -6,8 +6,11 @@ import { useAuthContext } from 'src/contexts/auth-context';
 export const AuthGuard = (props) => {
   const { children } = props;
   const router = useRouter();
-  const { isAuthenticated } = useAuthContext();
-  console.log(isAuthenticated)
+  const auth = useAuthContext();
+  const {isAuthenticated} = auth
+
+  console.log(auth)
+  
   const ignore = useRef(false);
   const [checked, setChecked] = useState(false);
 

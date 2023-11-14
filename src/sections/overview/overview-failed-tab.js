@@ -4,6 +4,7 @@ import ArrowUpIcon from '@heroicons/react/24/solid/ArrowUpIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
+import { AlertCircle } from 'react-feather';
 
 export const OverviewFailedReversals = (props) => {
   const { difference, positive = false, sx, value } = props;
@@ -22,7 +23,7 @@ export const OverviewFailedReversals = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Failed
+              Exceptions
             </Typography>
             <Typography variant="h4">
               {value}
@@ -36,7 +37,7 @@ export const OverviewFailedReversals = (props) => {
             }}
           >
             <SvgIcon>
-              <CurrencyDollarIcon />
+              <AlertCircle />
             </SvgIcon>
           </Avatar>
         </Stack>

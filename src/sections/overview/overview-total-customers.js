@@ -4,6 +4,7 @@ import ArrowUpIcon from '@heroicons/react/24/solid/ArrowUpIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
+import CogIcon from '@heroicons/react/24/solid/CogIcon';
 
 export const OverviewTotalCustomers = (props) => {
   const { difference, positive = false, sx, value } = props;
@@ -22,7 +23,7 @@ export const OverviewTotalCustomers = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Successful
+              Reconciliations
             </Typography>
             <Typography variant="h4">
               {value}
@@ -36,7 +37,7 @@ export const OverviewTotalCustomers = (props) => {
             }}
           >
             <SvgIcon>
-              <CurrencyDollarIcon />
+              <CogIcon/>
             </SvgIcon>
           </Avatar>
         </Stack>
