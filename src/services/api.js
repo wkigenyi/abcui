@@ -2,14 +2,14 @@ import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 import {Mutex} from "async-mutex"
 import { logout, setAuth } from "src/redux/features/authSlice"
 import { getCookie } from "../utils/getCookieByName"
-import { batch } from "react-redux"
+
 
 
 
 const mutex = new Mutex()
 
 const baseQuery = fetchBaseQuery({
-  baseUrl:"http://localhost:8001",
+  baseUrl:"http://10.60.44.15:8001",
   credentials:"include"
 })
 export const abcApi = createApi({
