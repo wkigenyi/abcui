@@ -9,7 +9,7 @@ import { getCookie } from "../utils/getCookieByName"
 const mutex = new Mutex()
 
 const baseQuery = fetchBaseQuery({
-  baseUrl:"http://10.60.44.15:8001",
+  baseUrl:"http://recon.agentbankug.com:8001",
   credentials:"include"
 })
 export const abcApi = createApi({
