@@ -8,7 +8,7 @@ import { getCookie } from "../utils/getCookieByName"
 
 
 const mutex = new Mutex()
-const accessToken = localStorage.getItem("accessToken")
+
 
 
 
@@ -16,7 +16,7 @@ const accessToken = localStorage.getItem("accessToken")
 const baseQuery = fetchBaseQuery({
   baseUrl:"http://localhost:8001",
   prepareHeaders: headers =>{
-    
+    const accessToken = localStorage.getItem("accessToken")
     headers.set("Authorization",`Bearer ${accessToken}`) 
     
     return headers;
