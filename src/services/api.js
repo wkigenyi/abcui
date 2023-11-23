@@ -8,13 +8,16 @@ import { getCookie } from "../utils/getCookieByName"
 
 
 const mutex = new Mutex()
+const baseUrl = process.env.URL
+
+console.log("Base Url", baseUrl)
 
 
 
 
 
 const baseQuery = fetchBaseQuery({
-  baseUrl:"http://localhost:8001",
+  baseUrl:baseUrl,
   prepareHeaders: headers =>{
     const accessToken = localStorage.getItem("accessToken")
     headers.set("Authorization",`Bearer ${accessToken}`) 
