@@ -10,7 +10,7 @@ import { getCookie } from "../utils/getCookieByName"
 const mutex = new Mutex()
 const baseUrl = process.env.URL
 
-console.log("Base Url", baseUrl)
+
 
 
 

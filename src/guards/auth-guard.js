@@ -9,7 +9,7 @@ export const AuthGuard = (props) => {
   const auth = useAuthContext();
   const {isAuthenticated} = auth
 
-  console.log(auth)
+  
   
   const ignore = useRef(false);
   const [checked, setChecked] = useState(false);
