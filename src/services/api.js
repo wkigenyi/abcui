@@ -8,12 +8,8 @@ import { getCookie } from "../utils/getCookieByName"
 
 
 const mutex = new Mutex()
-let accessToken;
-try{
-  accessToken = window.localStorage.getItem("accessToken")
-}catch(e){
+const accessToken = localStorage.getItem("accessToken")
 
-}
 
 
 
