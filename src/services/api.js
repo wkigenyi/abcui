@@ -6,11 +6,26 @@ import { getCookie } from "../utils/getCookieByName"
 
 
 
+
 const mutex = new Mutex()
+let accessToken;
+try{
+  accessToken = window.localStorage.getItem("accessToken")
+}catch(e){
+
+}
+
+
 
 const baseQuery = fetchBaseQuery({
-  baseUrl:"http://recon.agentbankug.com:8001",
-  credentials:"include"
+  baseUrl:"http://localhost:8001",
+  prepareHeaders: headers =>{
+    
+    headers.set("Authorization",`Bearer ${accessToken}`) 
+    
+    return headers;
+  }
+  //credentials:"include"
 })
 export const abcApi = createApi({
   reducerPath:"abcApi",
@@ -21,20 +36,20 @@ export const abcApi = createApi({
 	if (result.error && result.error.status === 401) {
 		if (!mutex.isLocked()) {
 			const release = await mutex.acquire();
-      const token = getCookie('csrftoken')
+      const refreshToken = localStorage.getItem("refreshToken")
 			try {
 				const refreshResult = await baseQuery(
 					{
-						url: 'auth/jwt/refresh/',
+						url: 'api/token/refresh/',
 						method: 'POST',
-            headers:{"X-CSRFToken":token}
+            body:{refresh:refreshToken}
 					},
 					api,
 					extraOptions
 				);
 				if (refreshResult.data) {
 					api.dispatch(setAuth());
-
+          localStorage.setItem("accessToken",refreshResult.data.access)
 					result = await baseQuery(args, api, extraOptions);
 				} else {
 					api.dispatch(logout());
@@ -50,9 +65,10 @@ export const abcApi = createApi({
 	return result;
 
   },
+  
   endpoints: builder =>({
     createAuthToken: builder.mutation({
-      query: ({username,password}) =>({url:"auth/jwt/create/",body:{username,password},method:"POST"})
+      query: ({username,password}) =>({url:"api/token/",body:{username,password},method:"POST"})
     }),
     retrieveUser: builder.query({
       query: () => `api/users/me/`

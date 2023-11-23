@@ -120,6 +120,8 @@ export const AuthProvider = (props) => {
     await getToken({username,password}).unwrap().then(
       token => {
         const {access,refresh} = token
+        localStorage.setItem("accessToken",access);
+        localStorage.setItem("refreshToken",refresh);
         getUser().unwrap().then(user => {
 
           try{
