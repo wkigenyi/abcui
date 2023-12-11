@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useCreateAuthTokenMutation, useLazyRetrieveUserQuery } from 'src/services/api';
+import { useChangePasswordMutation, useCreateAuthTokenMutation, useLazyRetrieveUserQuery } from 'src/services/api';
 
 
 const HANDLERS = {
@@ -66,8 +66,9 @@ export const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
 
-  const [getToken,{isLoading}] = useCreateAuthTokenMutation()
+  const [getToken,{isLoading:isGettingToken}] = useCreateAuthTokenMutation()
   const [getUser,{isFetching,isLoading:isLoadingUser}] = useLazyRetrieveUserQuery()
+  const [changeThePassword,{isLoading:isChangingPassword}] = useChangePasswordMutation()
 
   
 
@@ -160,6 +161,32 @@ export const AuthProvider = (props) => {
     
   };
 
+  const changePassword = async (old_password,password,confirm_password,user_id) => {
+    
+
+    await changeThePassword({old_password,password,confirm_password,user_id}).unwrap().then(
+      token => {
+        
+        
+        console.log(token)
+
+      },
+      err => { 
+        if(err.status == 400){
+          throw new Error (err.data.detail[0])
+        }
+        throw new Error(JSON.stringify(err)) 
+        console.log(err)
+      }
+    )
+
+    
+
+    
+
+    
+  };
+
   /* const signUp = async (email, name, password) => {
     throw new Error('Sign up is not implemented');
   }; */
@@ -181,7 +208,8 @@ export const AuthProvider = (props) => {
         signIn,
         //signUp,
         signOut,
-        isLoading
+        changePassword,
+        isLoading: isChangingPassword || isFetching || isGettingToken || isLoadingUser
       }}
     >
       {children}

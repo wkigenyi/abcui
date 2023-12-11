@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { Box, Divider, MenuItem, MenuList, Popover, Typography } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
+import Link from 'next/link';
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open } = props;
@@ -16,6 +17,15 @@ export const AccountPopover = (props) => {
       router.push('/auth/login');
     },
     [onClose, auth, router]
+  );
+
+  const handleChangePassword = useCallback(
+    () => {
+      onClose?.();
+      
+      router.push('/auth/changepassword');
+    },
+    [onClose, router]
   );
 
   return (
@@ -56,9 +66,14 @@ export const AccountPopover = (props) => {
           }
         }}
       >
-        <MenuItem onClick={handleSignOut}>
+        <MenuItem onClick={handleChangePassword}>
+          Change Password
+        </MenuItem>
+        <Divider />
+        <MenuItem  onClick={handleSignOut}>
           Sign out
         </MenuItem>
+        
       </MenuList>
     </Popover>
   );

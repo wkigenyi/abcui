@@ -72,6 +72,9 @@ export const abcApi = createApi({
     retrieveUser: builder.query({
       query: () => `api/users/me/`
     }),
+    changePassword: builder.mutation({
+      query: ({old_password,password,confirm_password,user_id}) =>({url:`api/auth/change_password/${user_id}/`,body:{old_password,password,confirm_password},method:"PUT"})
+    }),
     logout: builder.mutation({
       query: () =>({
         url:"logout/",
@@ -135,6 +138,7 @@ export const abcApi = createApi({
 
 export const {
   useCreateAuthTokenMutation,
+  useChangePasswordMutation,
   useLazyRetrieveUserQuery,
   useCreateSettlementCsvFileMutation,
   useGetReconciledDataQuery,
