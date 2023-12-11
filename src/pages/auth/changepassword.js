@@ -7,13 +7,18 @@ import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import { useSnackbar } from 'notistack';
+import { useEffect, useState } from 'react';
 
 const Page = () => {
   const router = useRouter();
   const auth = useAuth();
   const {enqueueSnackbar} = useSnackbar()
-  const user = sessionStorage.getItem("abcUser")
-  const user_id = JSON.parse(user).id
+  const [userId,setUserId] = useState(null)
+  useEffect(()=>{
+    const user = sessionStorage.getItem("abcUser")
+  setUserId(JSON.parse(user).id)
+  },[setUserId])
+  
   const formik = useFormik({
     initialValues: {
       old_password: '',
@@ -28,16 +33,18 @@ const Page = () => {
         .required('Current Password is required'),
       password: Yup
         .string()
+        .min(8,"Password must be at least 8 characters")
         .max(255)
         .required('New password is required'),
       confirm_password: Yup
         .string()
+        .min(8,"Password must be at least 8 characters")
         .max(255)
         .required('Confirm new password')
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.changePassword(values.old_password, values.password, values.confirm_password,user_id);
+        await auth.changePassword(values.old_password, values.password, values.confirm_password,userId);
         auth.signOut();
         router.push('/auth/login');
         enqueueSnackbar("Password Changed Successfully, Login with the new password",{variant:"success"})
@@ -113,9 +120,9 @@ const Page = () => {
                   value={formik.values.old_password}
                 />
                 <TextField
-                  error={!!(formik.touched.email && formik.errors.password)}
+                  error={!!(formik.touched.password && formik.errors.password)}
                   fullWidth
-                  helperText={formik.touched.email && formik.errors.password}
+                  helperText={formik.touched.password && formik.errors.password}
                   label="New Password"
                   name="password"
                   onBlur={formik.handleBlur}
