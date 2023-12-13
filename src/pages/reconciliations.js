@@ -325,7 +325,7 @@ const Page = () => {
         LinkComponent={"a"}  
         sx={{mr:3}}
         download={true}
-        href='/recon_template.xlsx'
+        href='/templates/recon_template.xlsx'
         >Download Template</Button>
         </Box>
         
